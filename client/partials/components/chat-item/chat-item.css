@@ -1,0 +1,37 @@
+.chat-item {
+    color: var(--blue-color);
+    border: 1px solid var(--blue-color);
+    border-radius: 10px;
+    padding: 10px 10px 30px;
+    background-color: var(--white-color);
+}
+
+.chat-item__title {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    column-gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.chat-item__avatar svg {
+    color: var(--blue-color);
+}
+
+.chat-list__author {
+    font-weight: bold;
+}
+
+.chat-list__new-msg-count {
+    font-weight: bold;
+    border-radius: 50%;
+    width: 25px;
+    line-height: 25px;
+    background: var(--blue-color);
+    color: var(--white-color);
+    text-align: center;
+}
+
+.chat-item__msg {
+    margin: 0;
+}

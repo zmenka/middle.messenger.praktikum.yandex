@@ -1,0 +1,40 @@
+@import './partials/components/button/button.css';
+@import './partials/components/chat-item/chat-item.css';
+@import './partials/components/icon/icon.css';
+@import './partials/components/input/input.css';
+@import './partials/components/link/link.css';
+@import './partials/components/form-field/form-field.css';
+@import './partials/layouts/auth-form/auth-form.css';
+@import './partials/layouts/main/main.css';
+@import './partials/layouts/error/error.css';
+@import './pages/chats/chats.css';
+@import './pages/profile/profile.css';
+
+:root {
+    --blue-color: #0E5A85;
+    --white-color: #FFFFFF;
+    --light-blue-color: #ECF8FF;
+    --red-color: #EF3030;
+    --gray-color: #C3C2C8;
+
+    --caption-size: 10px;
+    --text-size: 15px;
+    --title-size: 20px;
+}
+
+
+* {
+    font-size: 100%;
+    font-family: Arial;
+    font-size: var(--text-size);
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+}

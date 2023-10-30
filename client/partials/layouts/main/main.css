@@ -1,0 +1,13 @@
+.main {
+    display: grid;
+    grid-template-columns: 75px 1fr;
+    height: 100%;
+}
+
+.main__menu {
+    padding: 20px 0;
+    background-color: var(--blue-color);
+    display: grid;
+    align-content: start; 
+    row-gap: 20px;
+}

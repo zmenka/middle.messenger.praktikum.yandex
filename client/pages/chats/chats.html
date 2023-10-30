@@ -1,0 +1,32 @@
+{{#> layouts/page/page title="Chats Page" }}
+    {{#> layouts/main/main }}
+        <div class="chats">
+            <div class="chats__panel">
+                <div class="chats__search">
+                    {{> components/input/input }}
+                </div>
+                <ul class="chats__list">
+                    {{#each chats }}
+                        <li class="chat-list__item">
+                            {{> components/chat-item/chat-item this }}
+                        </li>
+                    {{/each}}
+                </ul>
+            </div>
+            <div class="chats__view">
+                <div class="chats__header">
+                    {{> components/icon/icon type="avatar" class="chats__header-avatar" }}
+                    <div class="chat-list__author">{{ currentChat.author }}</div>
+                    {{> components/link/link title="Change chat" url="/" }}
+                    {{> components/link/link title="Delete chat" url="/" }}
+                </div>
+                <div class="chats__msgs">
+                    here will be messages
+                </div>
+                <div class="chats__new-msg">
+                    {{> components/input/input }}
+                </div>
+            </div>
+        </div>  
+    {{/ layouts/main/main }}
+{{/ layouts/page/page }}
