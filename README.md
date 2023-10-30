@@ -4,7 +4,20 @@
 
 ## Макеты проекта в Figma
 
-https://www.figma.com/file/XjLv8558L4Gco0xstb6AAN/practicum-chat-design?type=design&node-id=25%3A741&mode=design&t=Avvfl9MILZkpG9Wp-1
+[ссылка](https://www.figma.com/file/XjLv8558L4Gco0xstb6AAN/practicum-chat-design?type=design&node-id=25%3A741&mode=design&t=Avvfl9MILZkpG9Wp-1)
+
+## Netlify
+
+[домен](https://deploy--marvelous-wisp-9e952a.netlify.app)
+
+## Сверстанные страницы
+
+- [Sign In](https://deploy--marvelous-wisp-9e952a.netlify.app/pages/sign-in/sign-in)
+- [Sign Up](https://deploy--marvelous-wisp-9e952a.netlify.app/pages/sign-up/sign-up)
+- [Страница со списком чатов](https://deploy--marvelous-wisp-9e952a.netlify.app/pages/chats/chats)
+- [Профиль](https://deploy--marvelous-wisp-9e952a.netlify.app/pages/profile/profile)
+- [404](https://deploy--marvelous-wisp-9e952a.netlify.app/pages/404/404)
+- [500](https://deploy--marvelous-wisp-9e952a.netlify.app/pages/500/500)
 
 ## Установка
 
