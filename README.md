@@ -10,6 +10,7 @@ https://www.figma.com/file/XjLv8558L4Gco0xstb6AAN/practicum-chat-design?type=des
 
 - `npm install` — установка необходимых пакетов,
 - `npm run dev` — запуск версии для разработчика,
+- `npm run build` — сборка  продовой версии,
 - `npm run start` — сборка и запуск продовой версии.
 
 

@@ -7,7 +7,8 @@
     "node": ">=16"
   },
   "scripts": {
-    "start": "tsc -p ./client/tsconfig-client.json && vite build && ts-node --esm  --project ./server/tsconfig-server.json ./server/server.ts",
+    "build": "tsc -p ./client/tsconfig-client.json && vite build",
+    "start": "npm run build && ts-node --esm  --project ./server/tsconfig-server.json ./server/server.ts",
     "dev": "vite"
   },
   "devDependencies": {
