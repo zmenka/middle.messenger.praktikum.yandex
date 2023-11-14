@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "tsc -p ./client/tsconfig-client.json --noEmit && vite build && cp static/_redirects dist/",
-    "start": "npm run build && ts-node --esm  --project ./server/tsconfig-server.json ./server/server.ts",
+    "start": "npm run build && ts-node --esm  --project ./tsconfig.json ./server/server.ts",
     "dev": "vite",
     "lint": "npm run eslint && npm run stylelint",
     "eslint": "eslint --ignore-path .gitignore --ext .ts . --fix",
