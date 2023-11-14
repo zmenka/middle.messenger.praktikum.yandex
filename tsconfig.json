@@ -17,6 +17,7 @@
     "allowImportingTsExtensions": true,
     "noUnusedParameters": true,
     "noImplicitAny": true,
+    "strictNullChecks": true,
 
     "isolatedModules": true,
     "useDefineForClassFields": true,
