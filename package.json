@@ -11,7 +11,7 @@
     "start": "npm run build && ts-node --esm  --project ./server/tsconfig-server.json ./server/server.ts",
     "dev": "vite",
     "lint": "npm run eslint && npm run stylelint",
-    "eslint": "eslint --ignore-path .gitignore --ext .ts . --fix",
+    "eslint": "eslint --ignore-path .gitignore --ext .ts,.js . --fix",
     "stylelint": "stylelint --ignore-path .gitignore \"**/*.css\" --fix"
   },
   "devDependencies": {
