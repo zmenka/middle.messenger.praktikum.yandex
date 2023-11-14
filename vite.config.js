@@ -7,12 +7,7 @@ export default defineConfig({
     publicDir: resolve(__dirname, 'static'),
     build: {
         outDir: resolve(__dirname, 'dist'),
-        emptyOutDir: true,
-        rollupOptions: {
-          input: {
-              index: resolve(__dirname, 'client/index.html'),
-          }
-      }
+        emptyOutDir: true
     },
     css: {
         postcss: {

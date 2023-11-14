@@ -7,7 +7,7 @@
     "node": ">=16"
   },
   "scripts": {
-    "build": "tsc -p ./client/tsconfig-client.json --noEmit && vite build",
+    "build": "tsc -p ./client/tsconfig-client.json --noEmit && vite build && cp static/_redirects dist/",
     "start": "npm run build && ts-node --esm  --project ./server/tsconfig-server.json ./server/server.ts",
     "dev": "vite",
     "lint": "npm run eslint && npm run stylelint",
