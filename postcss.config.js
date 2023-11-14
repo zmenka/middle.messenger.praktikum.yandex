@@ -1,6 +1,4 @@
-module.exports = {
-  plugins: {
-    autoprefixer: {},
-    cssvariables: {},
-  }
-}
+export const plugins = {
+  autoprefixer: {},
+  cssvariables: {},
+};
