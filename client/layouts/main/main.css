@@ -5,11 +5,10 @@
 }
 
 .main__menu {
-    align-content: start;
-    justify-content: center;
     background-color: var(--blue-color);
     display: grid;
-    padding: 20px 0; 
+    padding: 20px 0;
+    place-content: start center; 
     row-gap: 20px;
 }
 

@@ -6,7 +6,8 @@
         "sourceType": "module"
     },
     "plugins": [
-      "@typescript-eslint"
+      "@typescript-eslint",
+			"@stylistic/ts"
     ],
     "extends": [
       "eslint:recommended",
@@ -14,7 +15,9 @@
       "plugin:@typescript-eslint/recommended"
     ],
     "rules": {
-
+			"@typescript-eslint/no-explicit-any": "off",
+			"@stylistic/ts/semi": ["error", "always"],
+			"@stylistic/ts/indent": ["error", 2]
     },
     "env": {
       "browser": true,

@@ -1,18 +1,24 @@
-import { Block } from '../../block/block.ts'
+import { Block } from '../../block/block.ts';
 import './button.css';
 
 export type ButtonProps = {
-	title: string;
-	isDisabled?: boolean;
-	events?: { [key: string]: EventListener };
+  title: string;
+  isDisabled?: boolean;
+  click?: EventListener;
 };
 
 export class Button extends Block {
-  constructor({ title, isDisabled, events }: ButtonProps) {
-		const attributes = { 'class': 'button' };
-		if (isDisabled) {
-			attributes['disabled'] = '';
-		}
+  constructor({ title, isDisabled, click }: ButtonProps) {
+    const attributes: { [key: string]: string } = { 'class': 'button' };
+    if (isDisabled) {
+      attributes['disabled'] = '';
+    }
+
+    const events: { [key: string]: EventListener } = {};
+    if (click) {
+      events['click'] = click;
+    }
+
     super("button", { props: { title }, events, attributes  });
   }
 
@@ -23,8 +29,7 @@ export class Button extends Block {
     return fragment;
   }
 
-	setDisabled(isDisabled: boolean) {
-		console.log('SET DISABLED', isDisabled)
-		isDisabled ? this.setAttribute('disabled', '') : this.removeAttribute('disabled');
-	}
+  setDisabled(isDisabled: boolean) {
+    isDisabled ? this.setAttribute('disabled', '') : this.removeAttribute('disabled');
+  }
 }

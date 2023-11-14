@@ -20,13 +20,13 @@
 }
 
 .chats__list {
+    align-content: start;
     display: grid;
     list-style-type: none;
     margin: 0;
     overflow: auto;
     padding: 0;
     row-gap: 20px;
-    align-content: start;
 }
 
 .chats__item {

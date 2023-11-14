@@ -31,6 +31,30 @@
 			"unreadMsgCount": 0,
 			"selected": true,
 			"isGroupChat": true
+		},
+		{
+			"id": "5",
+			"author": "Lola1",
+			"lastMessage": "hi",
+			"unreadMsgCount": 0,
+			"selected": true,
+			"isGroupChat": true
+		},
+		{
+			"id": "6",
+			"author": "Lola2",
+			"lastMessage": "hi",
+			"unreadMsgCount": 0,
+			"selected": true,
+			"isGroupChat": true
+		},
+    {
+			"id": "7",
+			"author": "Lola3",
+			"lastMessage": "hi",
+			"unreadMsgCount": 0,
+			"selected": true,
+			"isGroupChat": true
 		}
 	],
 	"history": {
@@ -118,6 +142,39 @@
 			}
 		],
 		"4": [
+			{
+				"date": "10 october 2023",
+				"messages": [
+					{
+						"date": "10 october 11:02",
+						"message": "hi"
+					}
+				]
+			}
+		],
+		"5": [
+			{
+				"date": "10 october 2023",
+				"messages": [
+					{
+						"date": "10 october 11:02",
+						"message": "hi"
+					}
+				]
+			}
+		],
+		"6": [
+			{
+				"date": "10 october 2023",
+				"messages": [
+					{
+						"date": "10 october 11:02",
+						"message": "hi"
+					}
+				]
+			}
+		],
+		"7": [
 			{
 				"date": "10 october 2023",
 				"messages": [

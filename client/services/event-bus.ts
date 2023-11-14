@@ -1,9 +1,9 @@
 type EventCallback = {
   (...args: any[]): void;
-}
+};
 
 export class EventBus {
-	listeners: { [event: string]: EventCallback[]; };
+  listeners: { [event: string]: EventCallback[]; };
 
   constructor() {
     this.listeners = {};
@@ -18,7 +18,7 @@ export class EventBus {
   }
 
   off(event: string, callback: EventCallback) {
-		if (!this.listeners[event]) {
+    if (!this.listeners[event]) {
       throw new Error(`Нет события: ${event}`);
     }
 
@@ -27,13 +27,12 @@ export class EventBus {
     );
   }
 
-	emit(event: string, ...args: any[]) {
+  emit(event: string, ...args: any[]) {
     if (!this.listeners[event]) {
       throw new Error(`Нет события: ${event}`);
     }
 
     this.listeners[event].forEach(function(listener) {
-      console.log('EMIT', event, args);
       listener(...args);
     });
   }

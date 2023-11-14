@@ -1,7 +1,7 @@
-import { Block } from '../../../block/block.ts'
-import { Input, InputTypes, InputWithValidation } from '../../../components/input/input.ts'
-import { ValidationTypes, ValidationFunc, getValidateionFunc } from '../../../services/validation.ts'
-import './form-field.css'
+import { Block } from '../../../block/block.ts';
+import { InputTypes, InputWithValidation } from '../../../components/input/input.ts';
+import { ValidationTypes } from '../../../services/validation.ts';
+import './form-field.css';
 
 const fieldTemplate = `
 <label class="form-field__label" for={{ name }}>{{ title }}</label>
@@ -14,66 +14,57 @@ const fieldTemplate = `
 `;
 
 export type FormFieldProps = {
-	title: string;
-	name: string;
-	type: InputTypes;
-	error: string;
-	isError: boolean;
-	validateType: ValidationTypes;
-	onChange?: () => void;
+  title: string;
+  name: string;
+  type: InputTypes;
+  error: string;
+  isError: boolean;
+  validationType: ValidationTypes;
+  onChange: (value: string, isValid: boolean) => void;
 };
 
 export class FormField extends Block {
-	_input: Input;
-	_checkIsValid: ValidationFunc;
+  _input: InputWithValidation;
 
-  constructor({ title, name, type, error, isError, validateType, onChange }: FormFieldProps ) {
-		const checkIsValid = getValidateionFunc(validateType);
+  constructor({ title, name, type, error, isError, validationType, onChange }: FormFieldProps ) {
 
-		const input = new Input({
-      events: {
-        blur: (event: Event) => {
-					event.preventDefault();
-          console.log('blur event', event, (event.target as HTMLInputElement).value);
-					this.checkIsValid();
-					if (onChange) {
-						onChange();
-					}
-        },
+    const input = new InputWithValidation({
+      validationType,
+      onChange: (value: string, isValid: boolean) =>{
+        this.setError(!isValid);
+        onChange(value, isValid);
       },
-			attributes: {
-				'class': 'form-field__input',
-				'type': type,
-				'name': name,
-				'id': name
-			}
-    })
+      attributes: {
+        'class': 'form-field__input',
+        'type': type,
+        'name': name,
+        'id': name
+      }
+    });
 
     super("div", { props: { title, name, isError, error }, children: { input }, attributes: { class: 'form-field' } });
 
-		this._input = input;
-		this._checkIsValid = checkIsValid;
+    this._input = input;
   }
 
   render() {
-		const { title, name, isError, error } = this.props;
-		return this.compile(fieldTemplate, { title, name, isError, error });
+    const { title, name, isError, error } = this.props;
+    return this.compile(fieldTemplate, { title, name, isError, error });
   }
 
-	setError(isError: boolean) {
-		this.setProps({
-			props: { isError },
+  setError(isError: boolean) {
+    this.setProps({
+      props: { isError },
     });
-	}
+  }
 
-	checkIsValid() {
-		console.log('validate field')
-		const isValid = this._checkIsValid(this._input.getValue());
-		this.setError(!isValid);
-		return isValid;
-	}
+  checkIsValid() {
+    const { isValid } =  this._input.checkIsValid();
 
-	getValue() {
-		return this._input.getValue();
-	}
+    return isValid;
+  }
+
+  getValue() {
+    return this._input.getValue();
+  }
 }

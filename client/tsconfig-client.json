@@ -15,9 +15,10 @@
     "noUnusedLocals": true,
     "allowImportingTsExtensions": true,
     "noUnusedParameters": true,
-    
+
     // vite needs
     "isolatedModules": true,
     "useDefineForClassFields": true,
+    "strictPropertyInitialization": false,
   }
 }

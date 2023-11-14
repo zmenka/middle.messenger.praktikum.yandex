@@ -1,11 +1,11 @@
-import { Block, BlockProps } from '../../block/block.ts'
-import { ValidationTypes, ValidationFunc, getValidateionFunc } from '../../services/validation.ts'
+import { Block, BlockProps } from '../../block/block.ts';
+import { ValidationTypes, ValidationFunc, getValidateionFunc } from '../../services/validation.ts';
 
 export enum InputTypes {
-	'TEXT' = 'text',
-	'PASSWORD' = 'password',
-	'EMAIL' = 'email',
-	'TEL' = 'tel'
+  'TEXT' = 'text',
+  'PASSWORD' = 'password',
+  'EMAIL' = 'email',
+  'TEL' = 'tel'
 }
 
 export class Input extends Block {
@@ -13,40 +13,40 @@ export class Input extends Block {
     super("input", props);
   }
 
-	getValue() {
-		return (this._element as HTMLInputElement).value;
-	}
+  getValue() {
+    return (this._element as HTMLInputElement).value;
+  }
 }
 
 export type InputWithValidationProps = BlockProps & {
-	validationType: ValidationTypes,
-	onChange(value: string, isValid: boolean): void;
-}
+  validationType: ValidationTypes,
+  onChange?(value: string, isValid: boolean): void;
+};
 
 export class InputWithValidation extends Input {
-	_checkIsValid: ValidationFunc;
+  _checkIsValid: ValidationFunc;
 
-	constructor({ validationType, onChange, events = {}, ...props }: InputWithValidationProps) {
-		const checkIsValid = getValidateionFunc(validationType);
+  constructor({ validationType, onChange, events = {}, ...props }: InputWithValidationProps) {
+    const checkIsValid = getValidateionFunc(validationType);
 
-		const blur = (event: Event) => {
-			event.preventDefault();
-			console.log('InputWithValidation blur event', event, (event.target as HTMLInputElement).value);
-			const { value, isValid } = this.checkIsValid();
-			onChange(value, isValid);
-		};
+    const blur = (event: Event) => {
+      event.preventDefault();
 
-		Object.assign(events, { blur });
+      const { value, isValid } = this.checkIsValid();
+      onChange && onChange(value, isValid);
+    };
 
-		super({...props, events });
+    Object.assign(events, { blur });
 
-		this._checkIsValid = checkIsValid;
+    super({...props, events });
+
+    this._checkIsValid = checkIsValid;
   }
 
-	checkIsValid() {
-		const value = this.getValue();
-		const isValid = this._checkIsValid(value);
-		console.log('InputWithValidation checkIsValid',value, isValid );
-		return { value, isValid };
-	}
+  checkIsValid() {
+    const value = this.getValue();
+    const isValid = this._checkIsValid(value);
+
+    return { value, isValid };
+  }
 }

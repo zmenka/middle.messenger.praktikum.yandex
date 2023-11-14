@@ -1,15 +1,15 @@
-import { Block, BlockProps } from '../../block/block.ts'
-import './link.css'
+import { Block } from '../../block/block.ts';
+import './link.css';
 
 export type LinkProps = {
-	title: string;
-	url?: string;
-	click?: EventListener;
+  title: string;
+  url?: string;
+  click?: EventListener;
 };
 
 export class Link extends Block {
   constructor({ title, url = '', click }: LinkProps) {
-		super("a", { props: { title }, attributes: { 'class': 'link', 'href': url }, events: click ? { click } : {} });
+    super("a", { props: { title }, attributes: { 'class': 'link', 'href': url }, events: click ? { click } : {} });
   }
 
   render() {

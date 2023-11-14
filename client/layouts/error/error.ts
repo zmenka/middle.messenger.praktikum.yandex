@@ -1,4 +1,4 @@
-import { Block } from '../../block/block.ts'
+import { Block } from '../../block/block.ts';
 import { Link } from '../../components/link/link.ts';
 import './error.css';
 
@@ -9,22 +9,25 @@ const errorTemplate = `
 `;
 
 export type ErrorPageProps = {
-	code: number;
-	title: string;
-	linkTitle: string;
-	linkUrl: string
+  code: number;
+  title: string;
+  linkTitle: string;
+  linkUrl: string
 };
 
 export class ErrorPage extends Block {
+  _link: Link;
   constructor({ code, title, linkTitle, linkUrl }: ErrorPageProps) {
-		const link = new Link({ title: linkTitle, url: linkUrl });
+    const link = new Link({ title: linkTitle, url: linkUrl });
 
     super("div", { props: { code, title }, children: { link }, attributes: { class: 'error' }});
+    this._link = link;
   }
 
   render() {
-		const { code, title } = this.props;
-		return this.compile(errorTemplate, { code, title });
+    const { code, title } = this.props;
+
+    return this.compile(errorTemplate, { code, title });
   }
 }
 

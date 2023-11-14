@@ -1,22 +1,22 @@
 import { Block } from '../../../block/block.ts';
-import { Icon } from '../../../components/icon/icon.ts'
-import { IconTypes } from '../../../components/icon/icon-resourses.ts'
-import { InputField } from '../../../components/input-field/input-field.ts'
-import { Link, LinkProps } from '../../link/link.ts';
+import { Icon } from '../../../components/icon/icon.ts';
+import { IconTypes } from '../../../components/icon/icon-resourses.ts';
+import { InputField } from '../../../components/input-field/input-field.ts';
+import { Link } from '../../link/link.ts';
 
 import './selected-chat.css';
 
 export type SelectedChatProps = {
-	author: string;
-	history: {
-		date: string;
-		messages: {
-			date: string;
-			message: string;
-			author: string;
-		}[]
-	}[];
-	isGroupChat: boolean;
+  author: string;
+  history: {
+    date: string;
+    messages: {
+      date: string;
+      message: string;
+      author: string;
+    }[]
+  }[];
+  isGroupChat: boolean;
 };
 
 const chatTemplate = `
@@ -57,46 +57,45 @@ const chatTemplate = `
 `;
 
 export class SelectedChat extends Block {
-	_msgInput:InputField;
-
   constructor() {
     super("div", { props: { notSelected: true }, attributes: { 'class': 'selected-chat' }});
   }
 
   render() {
-		const { notSelected, author, history, isGroupChat } = this.props;
-		return this.compile(chatTemplate, { notSelected, author, history, isGroupChat });
+    const { notSelected, author, history, isGroupChat } = this.props;
+    return this.compile(chatTemplate, { notSelected, author, history, isGroupChat });
   }
 
-	setChatProps(props: SelectedChatProps) {
-		console.log('setChatProps', props);
-		const { author, history, isGroupChat } = props;
-		const icon = new Icon({
-			type: IconTypes.AVATAR,
-			className: 'selected-chat__header-avatar'
-		});
+  setChatProps(props: SelectedChatProps) {
+    const { author, history, isGroupChat } = props;
+    const icon = new Icon({
+      type: IconTypes.AVATAR,
+      className: 'selected-chat__header-avatar'
+    });
 
-		const avatar = new Icon({
-			type: IconTypes.AVATAR,
-			className: 'selected-chat__avatar'
-		});
+    const avatar = new Icon({
+      type: IconTypes.AVATAR,
+      className: 'selected-chat__avatar'
+    });
 
-		const msgInput = new InputField({
-			name: 'message',
-			iconType: IconTypes.ENTER
-		});
+    const msgInput = new InputField({
+      name: 'message',
+      iconType: IconTypes.ENTER
+    });
 
-		const changeLink = new Link({
-			title: 'Change chat',
-		});
+    const changeLink = new Link({
+      title: 'Change chat',
+      url: '/'
+    });
 
-		const deleteLink = new Link({
-			title: 'Delete chat',
-		});
+    const deleteLink = new Link({
+      title: 'Delete chat',
+      url: '/'
+    });
 
-		this.setProps({
-			props: { notSelected: false, author, history, isGroupChat },
-			children: { icon, avatar, msgInput, changeLink, deleteLink }
-		});
-	}
+    this.setProps({
+      props: { notSelected: false, author, history, isGroupChat },
+      children: { icon, avatar, msgInput, changeLink, deleteLink }
+    });
+  }
 }

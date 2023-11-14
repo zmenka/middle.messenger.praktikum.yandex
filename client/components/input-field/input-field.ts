@@ -1,15 +1,15 @@
-import { Block, BlockProps } from '../../block/block.ts'
-import { Input, InputTypes } from '../../components/input/input.ts'
-import { Icon } from '../../components/icon/icon.ts'
+import { Block } from '../../block/block.ts';
+import {  InputWithValidation } from '../../components/input/input.ts';
+import { Icon } from '../../components/icon/icon.ts';
 import { IconTypes } from '../icon/icon-resourses.ts';
-import { ValidationTypes, ValidationFunc, getValidateionFunc } from '../../services/validation.ts'
+import { ValidationTypes } from '../../services/validation.ts';
 import './input-field.css';
 
 export type InputFieldProps = {
-	className?: string;
-	name: string;
-	onChange?: () => void;
-	iconType: IconTypes;
+  className?: string;
+  name: string;
+  onChange?: () => void;
+  iconType: IconTypes;
 };
 
 const inputFieldTemplate = `
@@ -18,47 +18,44 @@ const inputFieldTemplate = `
 `;
 
 export class InputField extends Block {
-	_input: Input;
-	__icon: Icon;
-	_checkIsValid: ValidationFunc;
+  _input: InputWithValidation;
+  __icon: Icon;
 
   constructor({ className, name, iconType }: InputFieldProps) {
-		const input = new Input({
-			attributes: {
-				'class': 'input-field__input',
-				'type': 'text',
-				'name': name,
-				'id': name
-			}
-    })
+    const input = new InputWithValidation({
+      validationType: ValidationTypes.MESSAGE,
+      attributes: {
+        'class': 'input-field__input',
+        'type': 'text',
+        'name': name,
+        'id': name
+      }
+    });
 
-		const icon = new Icon({
-			type: iconType,
-			isButton: true,
-			className: 'input-field__icon',
-			click: event => {
-				event.preventDefault();
+    const icon = new Icon({
+      type: iconType,
+      isButton: true,
+      className: 'input-field__icon',
+      click: event => {
+        event.preventDefault();
 
-			}
-		});
+        const { value, isValid} = this._input.checkIsValid();
+        if (isValid) {
+          console.log({ [name]: value });
+        }
+      }
+    });
 
     super("form", {
-			children: { input, icon },
-			attributes: { 'class': `input-field ${className || ''}` }
-		});
+      children: { input, icon },
+      attributes: { 'class': `input-field ${className || ''}` }
+    });
 
-		this._input = input;
-		this.__icon = icon;
-		this._checkIsValid = getValidateionFunc(ValidationTypes.MESSAGE);
+    this._input = input;
+    this.__icon = icon;
   }
 
-	render() {
-		return this.compile(inputFieldTemplate);
+  render() {
+    return this.compile(inputFieldTemplate);
   }
-
-	checkIsValid() {
-		console.log('validate input-field')
-		const isValid = this._checkIsValid(this._input.getValue());
-		return isValid;
-	}
 }

@@ -11,19 +11,13 @@ export default defineConfig({
         rollupOptions: {
           input: {
               index: resolve(__dirname, 'client/index.html'),
-              signin: resolve(__dirname, 'client/pages/sign-in/sign-in.html'),
-              signup: resolve(__dirname, 'client/pages/sign-up/sign-up.html'),
-              chats: resolve(__dirname, 'client/pages/chats/chats.html'),
-              profile: resolve(__dirname, 'client/pages/profile/profile.html'),
-              error404: resolve(__dirname, 'client/pages/404/404.html'),
-              error500: resolve(__dirname, 'client/pages/500/500.html'),
           }
       }
     },
     css: {
         postcss: {
           plugins: [
-            autoprefixer({}) // add options if needed
+            autoprefixer({})
           ],
         }
       }

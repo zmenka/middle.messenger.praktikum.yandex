@@ -1,7 +1,7 @@
 .button {
     background-color: var(--blue-color);
-    border-radius: 10px;
     border: none;
+    border-radius: 10px;
     color: var(--white-color);
     cursor: pointer;
     font-size: var(--text-size);

@@ -1,4 +1,4 @@
-import { Block } from '../../block/block.ts'
+import { Block } from '../../block/block.ts';
 
 const indexTemplate = `
 <h1>List of pages</h1>
@@ -33,7 +33,7 @@ class IndexPage extends Block {
   }
 
   render() {
-		return this.compile(indexTemplate);
+    return this.compile(indexTemplate);
   }
 }
 
