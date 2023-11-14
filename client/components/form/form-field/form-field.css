@@ -1,0 +1,26 @@
+.form-field {
+    display: grid;
+    row-gap: 5px;
+}
+
+.form-field__label {
+    color: var(--gray-color);
+    font-size: var(--caption-size);
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.form-field__input {
+    background-color: var(--white-color);
+    border: 1px solid var(--blue-color);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.form-field__error {
+    min-height: 12px;
+    color: var(--red-color);
+    font-size: var(--caption-size);
+    margin: 0;
+    text-align: left;
+}

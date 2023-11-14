@@ -1,22 +1,23 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "module": "ESNext",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "skipLibCheck": true,
-
-    /* Bundler mode */
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "module": "esnext",
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
+    "target": "ESNext",
 
-    /* Linting */
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "noEmit": true,
+    "noFallthroughCasesInSwitch": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
     "strict": true,
     "noUnusedLocals": true,
+    "allowImportingTsExtensions": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    
+    // vite needs
+    "isolatedModules": true,
+    "useDefineForClassFields": true,
   }
 }

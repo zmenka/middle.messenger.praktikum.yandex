@@ -19,17 +19,17 @@
 }
 
 .profile__avatar {
+    align-items: center;
     display: grid;
     grid-auto-flow: column;
     justify-content: space-between;
-    align-items: center;
     margin-bottom: 30px;;
 }
 
 .profile__icon svg {
     color: var(--blue-color);
-    width: 90px;
     height: 90px;
+    width: 90px;
 }
 
 .profile__fields {
@@ -38,9 +38,9 @@
 }
 
 .profile__buttons {
-    margin: 55px 0;
     display: grid;
-    text-align: center;
     justify-self: stretch;
+    margin: 55px 0;
     row-gap: 20px;
+    text-align: center;
 }

@@ -1,0 +1,11 @@
+.icon {
+    background: none;
+    border: none;
+    color: var(--gray-color);
+    cursor: pointer;
+    padding: 0;
+}
+
+.icon_active {
+    color: var(--white-color);
+}
