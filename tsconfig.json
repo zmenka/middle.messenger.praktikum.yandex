@@ -19,7 +19,7 @@
 
     "isolatedModules": true,
     "useDefineForClassFields": true,
-    "strictPropertyInitialization": false,
+    "strictPropertyInitialization": false
   },
   "exclude": [
     "node_modules", "dist", "server"
