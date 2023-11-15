@@ -25,7 +25,7 @@ function withQuery(url: string, params: { [key: string]: string | number }) {
   return queryString ? url + (url.indexOf('?') === -1 ? '?' : '&') + queryString : url;
 }
 
-type HTTPMethod = (url: string, options?: Omit<Options, 'method'>) => Promise<unknown>
+type HTTPMethod = (url: string, options?: Omit<Options, 'method'>) => Promise<unknown>;
 export class HTTPTransport {
   get:HTTPMethod = (url, options = {}) => {
 
