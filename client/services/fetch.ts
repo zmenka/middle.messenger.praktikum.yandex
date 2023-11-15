@@ -6,15 +6,12 @@ enum METHODS {
 }
 
 type Options = {
-  url: string;
   headers?: { [key: string]: string };
   method: METHODS;
   queryParams?: { [key: string]: string | number },
   body?: object,
   timeout?: number;
 };
-
-type OptionsWithoutMethod = Omit<Options, 'method'>;
 
 // TODO добавить проверки
 function queryStringify(params: { [key: string]: string | number }): string {
@@ -28,21 +25,22 @@ function withQuery(url: string, params: { [key: string]: string | number }) {
   return queryString ? url + (url.indexOf('?') === -1 ? '?' : '&') + queryString : url;
 }
 
+type HTTPMethod = (url: string, options?: Omit<Options, 'method'>) => Promise<unknown>
 export class HTTPTransport {
-  get = (url: string, options: OptionsWithoutMethod) => {
+  get:HTTPMethod = (url, options = {}) => {
 
     return this.request(url, { ...options, method: METHODS.GET });
   };
 
-  post = (url: string, options: OptionsWithoutMethod) => {
+  post:HTTPMethod = (url, options = {}) => {
     return this.request(url, { ...options, method: METHODS.POST });
   };
 
-  put = (url: string, options: OptionsWithoutMethod) => {
+  put:HTTPMethod = (url, options = {}) => {
     return this.request(url, { ...options, method: METHODS.PUT });
   };
 
-  delete = (url: string, options: OptionsWithoutMethod) => {
+  delete:HTTPMethod = (url, options = {}) => {
     return this.request(url, { ...options, method: METHODS.DELETE });
   };
 
