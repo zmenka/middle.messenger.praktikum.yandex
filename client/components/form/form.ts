@@ -30,7 +30,7 @@ const formTemplate = `
   </div>
 `;
 
-export class Form extends Block {
+export class Form extends Block<FormProps> {
   _button: Button;
   _link: Link;
   _fields: (FormField | FormFieldImage)[];
@@ -71,7 +71,7 @@ export class Form extends Block {
     });
 
     super("div", {
-      props: { title: props.title },
+      props,
       children: { fields, button, link },
       attributes: {
         class: `form ${props.withBorder ? 'form_with-border' : ''}`

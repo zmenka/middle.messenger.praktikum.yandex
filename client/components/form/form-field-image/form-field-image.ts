@@ -15,10 +15,12 @@ export type FormFieldImageProps = {
   onChange?: () => void;
 };
 
-export class FormFieldImage extends Block {
+export class FormFieldImage extends Block<FormFieldImageProps> {
   _input: Input;
 
-  constructor({ name }: FormFieldImageProps ) {
+  constructor(props: FormFieldImageProps ) {
+    const { name } = props;
+
     const input = new Input({
       attributes: {
         'class': 'form-field-image__input',
@@ -34,7 +36,7 @@ export class FormFieldImage extends Block {
       className: 'form-field-image__icon'
     });
 
-    super("div", { props: { name }, children: { input, icon }, attributes: { class: 'form-field-image' } });
+    super("div", { props, children: { input, icon }, attributes: { class: 'form-field-image' } });
 
     this._input = input;
   }

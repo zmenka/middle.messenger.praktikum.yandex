@@ -8,8 +8,10 @@ export enum InputTypes {
   'TEL' = 'tel'
 }
 
-export class Input extends Block {
-  constructor(props: BlockProps) {
+type InputProps = Record<string, any>;
+
+export class Input extends Block<InputProps> {
+  constructor(props: BlockProps<InputProps>) {
     super("input", props);
   }
 
@@ -18,10 +20,10 @@ export class Input extends Block {
   }
 }
 
-export type InputWithValidationProps = BlockProps & {
+export interface InputWithValidationProps extends BlockProps<InputProps> {
   validationType: ValidationTypes,
   onChange?(value: string, isValid: boolean): void;
-};
+}
 
 export class InputWithValidation extends Input {
   _checkIsValid: ValidationFunc;

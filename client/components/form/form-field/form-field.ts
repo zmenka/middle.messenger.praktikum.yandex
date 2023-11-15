@@ -23,10 +23,11 @@ export type FormFieldProps = {
   onChange: (value: string, isValid: boolean) => void;
 };
 
-export class FormField extends Block {
+export class FormField extends Block<FormFieldProps> {
   _input: InputWithValidation;
 
-  constructor({ title, name, type, error, isError, validationType, onChange }: FormFieldProps ) {
+  constructor(props: FormFieldProps ) {
+    const { name, type, validationType, onChange } = props;
 
     const input = new InputWithValidation({
       validationType,
@@ -42,7 +43,7 @@ export class FormField extends Block {
       }
     });
 
-    super("div", { props: { title, name, isError, error }, children: { input }, attributes: { class: 'form-field' } });
+    super("div", { props, children: { input }, attributes: { class: 'form-field' } });
 
     this._input = input;
   }
@@ -53,7 +54,7 @@ export class FormField extends Block {
   }
 
   setError(isError: boolean) {
-    this.setProps({
+    this.setPropsAndChildren({
       props: { isError },
     });
   }

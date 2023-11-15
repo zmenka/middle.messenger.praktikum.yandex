@@ -7,8 +7,8 @@ import { Link } from '../../link/link.ts';
 import './selected-chat.css';
 
 export type SelectedChatProps = {
-  author: string;
-  history: {
+  author?: string;
+  history?: {
     date: string;
     messages: {
       date: string;
@@ -16,7 +16,8 @@ export type SelectedChatProps = {
       author: string;
     }[]
   }[];
-  isGroupChat: boolean;
+  isGroupChat?: boolean;
+  notSelected: boolean;
 };
 
 const chatTemplate = `
@@ -56,7 +57,7 @@ const chatTemplate = `
 {{/if}}
 `;
 
-export class SelectedChat extends Block {
+export class SelectedChat extends Block<SelectedChatProps> {
   constructor() {
     super("div", { props: { notSelected: true }, attributes: { 'class': 'selected-chat' }});
   }
@@ -93,7 +94,7 @@ export class SelectedChat extends Block {
       url: '/'
     });
 
-    this.setProps({
+    this.setPropsAndChildren({
       props: { notSelected: false, author, history, isGroupChat },
       children: { icon, avatar, msgInput, changeLink, deleteLink }
     });

@@ -15,13 +15,12 @@ export type ErrorPageProps = {
   linkUrl: string
 };
 
-export class ErrorPage extends Block {
-  _link: Link;
-  constructor({ code, title, linkTitle, linkUrl }: ErrorPageProps) {
+export class ErrorPage extends Block<ErrorPageProps>{
+  constructor(props: ErrorPageProps) {
+    const { linkTitle, linkUrl } = props;
     const link = new Link({ title: linkTitle, url: linkUrl });
 
-    super("div", { props: { code, title }, children: { link }, attributes: { class: 'error' }});
-    this._link = link;
+    super("div", { props, children: { link }, attributes: { class: 'error' }});
   }
 
   render() {

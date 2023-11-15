@@ -11,7 +11,7 @@
     align-items: center;
     column-gap: 10px;
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: auto 1fr auto;
     margin-bottom: 20px;
 }
 

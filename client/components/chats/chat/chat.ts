@@ -23,20 +23,21 @@ const chatTemplate = `
 <p class="chat-item__msg">{{ lastMessage }}</p>
 `;
 
-export class Chat extends Block {
-  constructor({ id, author, lastMessage, unreadMsgCount, onSelect }: ChatProps) {
+export class Chat extends Block<ChatProps> {
+  constructor(props: ChatProps) {
     const icon = new Icon({
       type: IconTypes.AVATAR,
       className: 'chat-item__avatar'
     });
 
     super("div", {
-      props: { id, icon, author, lastMessage, unreadMsgCount },
+      props,
+      children: { icon },
       attributes: { 'class': 'chat-item' },
       events: {
         click: event => {
           event.preventDefault();
-          onSelect(this.props.id);
+          props.onSelect(this.props.id);
         },
       }
     });

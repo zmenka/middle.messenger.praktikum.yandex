@@ -2,18 +2,19 @@ import { v4 as makeUUID } from 'uuid';
 import Handlebars from "handlebars";
 import { EventBus } from '../services/event-bus.ts';
 
-type AnyProps = {
-  [key: string]: any
-};
+export interface BlockProps<Props>  {
+  props?: Props;
+  children?: { [key: string]: Block<any> | Block<any>[] };
+  events?: { [key: string]: EventListener };
+  attributes?: { [key: string]: string };
+}
 
-export type BlockProps = {
-  props?: AnyProps,
-  children?: { [key: string]: Block | Block[] },
-  events?: { [key: string]: EventListener },
-  attributes?: { [key: string]: string }
-};
+interface PartialBlockProps<Props> {
+  props?: Partial<Props>;
+  children?: { [key: string]: Block<any> | Block<any>[] };
+}
 
-export class Block {
+export class Block<Props extends Record<string, any>> {
   static EVENTS = {
     INIT: "init",
     FLOW_CDM: "flow:component-did-mount",
@@ -27,19 +28,18 @@ export class Block {
   };
   _id: string;
   _setUpdate = false;
-  _children: { [key: string]: Block | Block[] };
-  _props: { [key: string]: any };
+  _props: Props;
+  _children: { [key: string]: Block<any> | Block<any>[] };
   _events:  { [key: string]: EventListener };
   _attributes: { [key: string]: string };
   eventBus: EventBus;
 
-  constructor(tagName: string = "div", allProps: BlockProps = {}) {
-
+  constructor(tagName: string = "div", allProps?: BlockProps<Props>) {
     this._meta = {
       tagName
     };
 
-    const { children = {}, props = {}, events = {}, attributes = {} } = allProps;
+    const { children = {}, events = {}, attributes = {} , props = {}} = allProps || {};
 
     this._children = this._makePropsProxy(children);
     this._events = events;
@@ -47,7 +47,7 @@ export class Block {
 
     this._id = makeUUID();
 
-    this._props = this._makePropsProxy({ ...props, __id: this._id });
+    this._props = this._makePropsProxy({ ...props });
 
     this.eventBus = new EventBus();
 
@@ -56,7 +56,7 @@ export class Block {
     this.eventBus.emit(Block.EVENTS.INIT);
   }
 
-  compile(template: string, props?: AnyProps["props"]) {
+  compile(template: string, props?: Record<string, any>) {
     const propsAndStubs = props ? { ...props } : {};
 
     Object.entries(this._children).forEach(([key, child]) => {
@@ -129,7 +129,7 @@ export class Block {
     this.eventBus.emit(Block.EVENTS.FLOW_CDM);
   }
 
-  _componentDidUpdate(oldProps: AnyProps, newProps: AnyProps) {
+  _componentDidUpdate(oldProps: Props, newProps: Props) {
     const response = this.componentDidUpdate(oldProps, newProps);
     if (!response) {
       return;
@@ -139,15 +139,11 @@ export class Block {
   }
 
   /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-  componentDidUpdate(_oldProps: AnyProps, _newProps: AnyProps) {
+  componentDidUpdate(_oldProps: Props, _newProps: Props) {
     return true;
   }
 
-  setProps = (nextProps: BlockProps) => {
-    if (!nextProps) {
-      return;
-    }
-
+  setPropsAndChildren = (nextProps: PartialBlockProps<Props>) => {
     this._setUpdate = false;
     const oldProps = {...this._props};
     const { props = {}, children = {} } = nextProps;

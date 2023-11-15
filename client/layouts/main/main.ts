@@ -1,9 +1,9 @@
-import { Block } from '../../block/block.ts';
+import { Block,  } from '../../block/block.ts';
 import { Icon, IconProps } from '../../components/icon/icon.ts';
 import './main.css';
 
 type MainProps = {
-  content: Block,
+  content: Block<any>,
   menus: IconProps[]
 };
 
@@ -18,7 +18,7 @@ const mainTemplate = `
 </div>
 `;
 
-export class Main extends Block {
+export class Main extends Block<Record<string, any>> {
 
   constructor({ menus: menusProps, content }: MainProps) {
     const menus = menusProps.map(menuProps => new Icon(menuProps));

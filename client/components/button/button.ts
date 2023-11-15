@@ -7,9 +7,11 @@ export type ButtonProps = {
   click?: EventListener;
 };
 
-export class Button extends Block {
-  constructor({ title, isDisabled, click }: ButtonProps) {
+export class Button extends Block<ButtonProps> {
+  constructor(props: ButtonProps) {
+    const { isDisabled, click } = props;
     const attributes: { [key: string]: string } = { 'class': 'button' };
+
     if (isDisabled) {
       attributes['disabled'] = '';
     }
@@ -19,7 +21,7 @@ export class Button extends Block {
       events['click'] = click;
     }
 
-    super("button", { props: { title }, events, attributes  });
+    super("button", { props, events, attributes  });
   }
 
   render() {

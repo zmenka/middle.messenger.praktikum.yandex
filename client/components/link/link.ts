@@ -7,9 +7,11 @@ export type LinkProps = {
   click?: EventListener;
 };
 
-export class Link extends Block {
-  constructor({ title, url = '', click }: LinkProps) {
-    super("a", { props: { title }, attributes: { 'class': 'link', 'href': url }, events: click ? { click } : {} });
+export class Link extends Block<LinkProps> {
+  constructor(props: LinkProps) {
+    const { url = '', click } = props;
+
+    super("a", { props, attributes: { 'class': 'link', 'href': url }, events: click ? { click } : {} });
   }
 
   render() {

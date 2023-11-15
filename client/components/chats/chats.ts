@@ -26,12 +26,13 @@ const chatsTemplate = `
 {{{ selectedChat }}}
 	`;
 
-export class Chats extends Block {
+export class Chats extends Block<ChatsProps> {
   _searchInput:InputField;
   _chats: Chat[];
   _selectedChat: SelectedChat;
 
-  constructor({ chats: chatsProps, onChatSelect }: ChatsProps) {
+  constructor(props: ChatsProps) {
+    const { chats: chatsProps } = props;
     const searchInput = new InputField({
       name: 'search',
       iconType: IconTypes.ENTER
@@ -43,7 +44,7 @@ export class Chats extends Block {
 
     const selectedChat = new SelectedChat();
 
-    super("div", { props: { onChatSelect }, children: { searchInput, chats, selectedChat }, attributes: { 'class': 'chats' }});
+    super("div", { props, children: { searchInput, chats, selectedChat }, attributes: { 'class': 'chats' }});
 
     this._searchInput = searchInput;
     this._chats = chats;

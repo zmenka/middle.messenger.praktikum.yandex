@@ -13,13 +13,14 @@ export type IconProps = {
   click?: EventListener;
 };
 
-export class Icon extends Block {
-  constructor({ className, isActive, type, isButton, click }: IconProps) {
+export class Icon extends Block<IconProps> {
+  constructor(props: IconProps) {
+    const { className, isActive, isButton, click } = props;
     const attributes = { 'class': `icon ${className || ''}` };
     if (isActive) {
       attributes['class'] = `${attributes['class']} icon_active`;
     }
-    super(isButton ? 'button' : 'i', { props: { type }, attributes, events: click ? { click } : {}  });
+    super(isButton ? 'button' : 'i', { props, attributes, events: click ? { click } : {}  });
   }
 
   render() {

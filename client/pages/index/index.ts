@@ -26,7 +26,7 @@ const indexTemplate = `
 </nav>
 `;
 
-class IndexPage extends Block {
+class IndexPage extends Block<Record<string, any>> {
 
   constructor() {
     super("div");

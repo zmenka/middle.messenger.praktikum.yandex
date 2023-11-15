@@ -17,11 +17,11 @@ const inputFieldTemplate = `
 {{{ icon }}}
 `;
 
-export class InputField extends Block {
+export class InputField extends Block<InputFieldProps> {
   _input: InputWithValidation;
-  __icon: Icon;
 
-  constructor({ className, name, iconType }: InputFieldProps) {
+  constructor(props: InputFieldProps) {
+    const { className, name, iconType } = props;
     const input = new InputWithValidation({
       validationType: ValidationTypes.MESSAGE,
       attributes: {
@@ -47,12 +47,12 @@ export class InputField extends Block {
     });
 
     super("form", {
+      props,
       children: { input, icon },
       attributes: { 'class': `input-field ${className || ''}` }
     });
 
     this._input = input;
-    this.__icon = icon;
   }
 
   render() {
