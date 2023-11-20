@@ -1,0 +1,27 @@
+.form-field-image {
+    align-items: center;
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: space-between;
+    margin-bottom: 30px;;
+}
+
+.form-field-image__icon svg {
+    color: var(--blue-color);
+    height: 90px;
+    width: 90px;
+}
+
+.form-field-image__input {
+    height: 0.1px;
+    opacity: 0;
+    position: absolute;
+    width: 0.1px;
+}
+
+.form-field-image__label {
+    color: var(--blue-color);
+    cursor: pointer;
+    font-size: var(--text-size);
+    text-decoration: underline;
+}

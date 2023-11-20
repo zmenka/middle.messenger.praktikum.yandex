@@ -1,0 +1,189 @@
+{
+	"chats": [
+		{
+			"id": "1",
+			"author": "Ivan Koshkin",
+			"lastMessage": "I want to say you something very important, please call me!",
+			"unreadMsgCount": 0,
+			"selected": false,
+			"isGroupChat": false
+		},
+		{
+			"id": "2",
+			"author": "Dasha, Olya, Masha, Christina, Roma, Dima, Anna, Dasha, Olya, Masha",
+			"lastMessage": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididun, consectetur adipiscing elit, sed do eiusmod tempor incididun",
+			"unreadMsgCount": 3,
+			"selected": true,
+			"isGroupChat": true
+		},
+		{
+			"id": "3",
+			"author": "Mom",
+			"lastMessage": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididun, consectetur adipiscing elit, sed do eiusmod tempor incididun",
+			"unreadMsgCount": 10,
+			"selected": true,
+			"isGroupChat": true
+		},
+		{
+			"id": "4",
+			"author": "Lola",
+			"lastMessage": "hi",
+			"unreadMsgCount": 0,
+			"selected": true,
+			"isGroupChat": true
+		},
+		{
+			"id": "5",
+			"author": "Lola1",
+			"lastMessage": "hi",
+			"unreadMsgCount": 0,
+			"selected": true,
+			"isGroupChat": true
+		},
+		{
+			"id": "6",
+			"author": "Lola2",
+			"lastMessage": "hi",
+			"unreadMsgCount": 0,
+			"selected": true,
+			"isGroupChat": true
+		},
+    {
+			"id": "7",
+			"author": "Lola3",
+			"lastMessage": "hi",
+			"unreadMsgCount": 0,
+			"selected": true,
+			"isGroupChat": true
+		}
+	],
+	"history": {
+		"1": [
+			{
+				"date": "1 august 2023",
+				"messages": [
+					{
+						"date": "1 august 11:12",
+						"message": "How are you?",
+						"author": "Ivan Koshkin"
+					},
+					{
+						"date": "1 august 14:12",
+						"message": "I'm fine"
+					}
+				]
+			}
+		],
+		"2": [
+			{
+				"date": "15 june 2023",
+				"messages": [
+					{
+						"date": "15 june 01:12",
+						"message": "Are you sleeping?",
+						"author": "Dasha",
+						"isGroupChat": true
+					},
+					{
+						"date": "15 june 01:13",
+						"message": "No)",
+						"isGroupChat": true
+					}
+				]
+			},
+			{
+				"date": "10 august 2023",
+				"messages": [
+					{
+						"date": "10 august 11:12",
+						"message": "How are you?",
+						"author": "Dasha",
+						"isGroupChat": true
+					},
+					{
+						"date": "10 august 11:30",
+						"message": "What's happening?",
+						"author": "Dima",
+						"isGroupChat": true
+					},
+					{
+						"date": "10 august 14:12",
+						"message": "I'm fine. Thank you for yout attention",
+						"isGroupChat": true
+					}
+				]
+			},
+			{
+				"date": "15 september 2023",
+				"messages": [
+					{
+						"date": "15 september 01:12",
+						"message": "Are you sleeping?",
+						"author": "Dasha",
+						"isGroupChat": true
+					},
+					{
+						"date": "15 september 01:13",
+						"message": "No)",
+						"isGroupChat": true
+					}
+				]
+			}
+		],
+		"3": [
+			{
+				"date": "1 october 2023",
+				"messages": [
+					{
+						"date": "1 october 14:12",
+						"message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididun, consectetur adipiscing elit, sed do eiusmod tempor incididun"
+					}
+				]
+			}
+		],
+		"4": [
+			{
+				"date": "10 october 2023",
+				"messages": [
+					{
+						"date": "10 october 11:02",
+						"message": "hi"
+					}
+				]
+			}
+		],
+		"5": [
+			{
+				"date": "10 october 2023",
+				"messages": [
+					{
+						"date": "10 october 11:02",
+						"message": "hi"
+					}
+				]
+			}
+		],
+		"6": [
+			{
+				"date": "10 october 2023",
+				"messages": [
+					{
+						"date": "10 october 11:02",
+						"message": "hi"
+					}
+				]
+			}
+		],
+		"7": [
+			{
+				"date": "10 october 2023",
+				"messages": [
+					{
+						"date": "10 october 11:02",
+						"message": "hi"
+					}
+				]
+			}
+		]
+	}
+}
