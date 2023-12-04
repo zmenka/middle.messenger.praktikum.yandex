@@ -4,7 +4,11 @@
 
 ## Функциональность
 
-Шаблоны переписаны на компоненты, сверстана страница со списком чатов, сделана валидация полей,
+- Реализован роутинг
+- К страницам подключено api, а именно:
+  - авторизация в полном объеме (регистрация, авторизация, выход из системы);
+  - работа с информацией пользователя (изменять данные пользователя, изменять аватар, изменять пароль);
+  - работа с чатами (список чатов пользователя, создать новый чат, добавить пользователя в чат, удалить пользователя из чата).
 
 ## Макеты проекта в Figma
 
@@ -14,25 +18,21 @@
 
 [домен](https://deploy--marvelous-wisp-9e952a.netlify.app)
 
-## Сверстанные страницы
+## Страницы
 
-- [Sign In](https://deploy--marvelous-wisp-9e952a.netlify.app/sign-in)
+- [Sign In](https://deploy--marvelous-wisp-9e952a.netlify.app/)
 - [Sign Up](https://deploy--marvelous-wisp-9e952a.netlify.app/sign-up)
-- [Страница со списком чатов](https://deploy--marvelous-wisp-9e952a.netlify.app/chats)
-- [Профиль](https://deploy--marvelous-wisp-9e952a.netlify.app/profile)
-- [404](https://deploy--marvelous-wisp-9e952a.netlify.app/pages/404)
-- [500](https://deploy--marvelous-wisp-9e952a.netlify.app/pages/500)
+- [Страница со списком чатов](https://deploy--marvelous-wisp-9e952a.netlify.app/messenger)
+- [Профиль](https://deploy--marvelous-wisp-9e952a.netlify.app/settings)
 
 ## Code style
 
-В проекте используются ESLint, Stylelint и EditorConfig
+В проекте используются ESLint, Stylelint, EditorConfig и Prettier
 
 ## Установка
 
 - `npm install` — установка необходимых пакетов,
 - `npm run dev` — запуск версии для разработчика,
-- `npm run build` — сборка  продовой версии,
+- `npm run build` — сборка продовой версии,
 - `npm run start` — сборка и запуск продовой версии.
 - `npm run lint` — запуск линтеров.
-
-
