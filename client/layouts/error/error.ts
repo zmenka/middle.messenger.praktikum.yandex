@@ -1,5 +1,6 @@
 import { Block } from '../../block/block.ts';
 import { Link } from '../../components/link/link.ts';
+import { RouterPaths } from '../../services/router.ts'
 import './error.css';
 
 const errorTemplate = `
@@ -12,7 +13,7 @@ export type ErrorPageProps = {
   code: number;
   title: string;
   linkTitle: string;
-  linkUrl: string
+  linkUrl: RouterPaths
 };
 
 export class ErrorPage extends Block<ErrorPageProps>{
@@ -20,13 +21,7 @@ export class ErrorPage extends Block<ErrorPageProps>{
     const { linkTitle, linkUrl } = props;
     const link = new Link({ title: linkTitle, url: linkUrl });
 
-    super("div", { props, children: { link }, attributes: { class: 'error' }});
-  }
-
-  render() {
-    const { code, title } = this.props;
-
-    return this.compile(errorTemplate, { code, title });
+    super({ ...props, children: { link }, attributes: { class: 'error' }}, errorTemplate);
   }
 }
 

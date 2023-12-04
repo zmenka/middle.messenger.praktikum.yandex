@@ -1,16 +1,23 @@
-import { Block } from '../../block/block.ts';
+import { Block, BlockProps } from '../../block/block.ts';
 import { Button, ButtonProps } from '../button/button.ts';
 import { Link, LinkProps } from '../link/link.ts';
 import { FormField, FormFieldProps } from './form-field/form-field.ts';
 import { FormFieldImage, FormFieldImageProps } from './form-field-image/form-field-image.ts';
+import { FormFieldGroup, FormFieldGroupProps } from './form-field-group/form-field-group.ts';
+import store, { State } from '../../services/store.ts'
+import { connect } from '../../services/connect.ts'
+import { InputTypes } from '../../components/input/input.ts';
+import { ValidationTypes, ValidationInfo } from '../../utils/validation.ts';
 import './form.css';
 
-type FormProps = {
+export type FormProps = {
   title?: string;
-  fields: (FormFieldImageProps | FormFieldProps)[];
+  fields: (FormFieldImageProps | FormFieldProps | FormFieldGroupProps)[];
   button: ButtonProps;
-  link: LinkProps;
+  link?: LinkProps;
   withBorder?: boolean;
+  onSubmit: (data: any) => void;
+  className?: string;
 };
 
 const formTemplate = `
@@ -33,66 +40,108 @@ const formTemplate = `
 export class Form extends Block<FormProps> {
   _button: Button;
   _link: Link;
-  _fields: (FormField | FormFieldImage)[];
+  _fields: (FormField  | FormFieldImage | FormFieldGroup)[];
 
   constructor(props: FormProps) {
     const button = new Button({
       title: props.button.title,
       click: event => {
+        console.log('click')
         event.preventDefault();
+
 
         if (this.checkIfError()) {
           this._button.setDisabled(true);
-        } else {
+          return;
+        }
           this._button.setDisabled(false);
 
-          const log: {[key: string]: any} = {};
+          const data: {[key: string]: any} = {};
 
-          console.log(this._fields.reduce((result, field) => {
+          this._fields.reduce((result, field) => {
             result[field.props.name] = field.getValue();
             return result;
-          }, log));
-        }
+          }, data);
+
+          props.onSubmit(data);
+
       },
     });
 
-    const onFieldChanged = () => {
-      this._button.setDisabled(false);
-    };
-
-    const link = new Link(props.link);
+    const onFieldChanged = () => this.onFieldChanged();
 
     const fields = props.fields.map(fieldProps => {
       if( (fieldProps as FormFieldProps).type) {
         return new FormField({ ...(fieldProps as FormFieldProps), onChange: onFieldChanged });
-      } else {
-        return new FormFieldImage({ ...fieldProps, onChange: onFieldChanged });
+      } if ((fieldProps as FormFieldGroupProps).options) {
+        return new FormFieldGroup(fieldProps as FormFieldGroupProps);
+      }else {
+        return new FormFieldImage(fieldProps as FormFieldImageProps);
       }
     });
 
-    super("div", {
-      props,
-      children: { fields, button, link },
+    const children: { [key: string]: Block | Block[] } = { fields, button };
+
+    if (props.link) {
+      children['link'] = new Link(props.link) ;
+    }
+
+    super({
+      ...props,
+      children,
       attributes: {
-        class: `form ${props.withBorder ? 'form_with-border' : ''}`
-      }});
+        class: `form ${props.withBorder ? 'form_with-border' : ''} ${props.className || ''}`
+      }},
+      formTemplate
+      );
 
     this._button = button;
-    this._link = link;
     this._fields = fields;
   }
 
+  onFieldChanged() {
+    console.log('onFieldChanged')
+    this._button.setDisabled(false);
+  };
+
   checkIfError() {
-    const somewhereIsError = this._fields.reduce((isError, field) => {
-      const currentFieldIsValid = field.checkIsValid();
-      return isError ? isError : !currentFieldIsValid;
-    }, false);
+    let somewhereIsError = false;
+    this._fields.map(field => {
+      const isValid = field.isValid();
+      console.log(field, isValid)
+      if (!isValid) {
+        somewhereIsError = true;
+        field.setError(true);
+      }
+    })
 
     return somewhereIsError;
+    // const somewhereIsError = this._fields.reduce((isError, field) => {
+    //   const currentFieldIsValid = field.checkIsValid();
+    //   console.log(field, currentFieldIsValid)
+    //   return isError ? isError : !currentFieldIsValid;
+    // }, false);
+
+    // return somewhereIsError;
   }
 
-  render() {
+  setPropsAndChildren(nextProps: Partial<FormProps> & { children: { fields: (FormField | FormFieldImage | FormFieldGroup)[] } }) {
+    if (nextProps.fields) {
+      const fields = nextProps.fields.map(fieldProps => {
+        if( (fieldProps as FormFieldProps).type) {
+          return new FormField({ ...(fieldProps as FormFieldProps), onChange: () => { this.onFieldChanged()}});
+        } if ((fieldProps as FormFieldGroupProps).options) {
+          return new FormFieldGroup(fieldProps as FormFieldGroupProps);
+        } else {
+          return new FormFieldImage(fieldProps as FormFieldImageProps);
+        }
+      });
 
-    return  this.compile(formTemplate, { title: this.props.title });
-  }
+      this._fields = fields;
+
+      nextProps.children = { fields };
+    }
+    return super.setPropsAndChildren(nextProps);
+  };
 }
+

@@ -1,6 +1,7 @@
+import { server } from 'typescript';
 import { Block } from '../../../block/block.ts';
 import { InputTypes, InputWithValidation } from '../../../components/input/input.ts';
-import { ValidationTypes } from '../../../services/validation.ts';
+import { ValidationTypes } from '../../../utils/validation.ts';
 import './form-field.css';
 
 const fieldTemplate = `
@@ -15,54 +16,48 @@ const fieldTemplate = `
 
 export type FormFieldProps = {
   title: string;
+  value?: string;
   name: string;
   type: InputTypes;
   error: string;
   isError: boolean;
   validationType: ValidationTypes;
-  onChange: (value: string, isValid: boolean) => void;
+  onChange?: (value: string, isValid: boolean) => void;
 };
 
 export class FormField extends Block<FormFieldProps> {
   _input: InputWithValidation;
 
   constructor(props: FormFieldProps ) {
-    const { name, type, validationType, onChange } = props;
+    const { name, type, validationType, value, onChange } = props;
 
     const input = new InputWithValidation({
       validationType,
       onChange: (value: string, isValid: boolean) =>{
+        console.log('onChange', value, isValid, onChange)
         this.setError(!isValid);
-        onChange(value, isValid);
+        onChange && onChange(value, isValid);
       },
       attributes: {
         'class': 'form-field__input',
         'type': type,
         'name': name,
-        'id': name
+        'id': name,
+        'value': value || ''
       }
     });
 
-    super("div", { props, children: { input }, attributes: { class: 'form-field' } });
+    super({ ...props, children: { input }, attributes: { class: 'form-field' } }, fieldTemplate);
 
     this._input = input;
   }
 
-  render() {
-    const { title, name, isError, error } = this.props;
-    return this.compile(fieldTemplate, { title, name, isError, error });
-  }
-
   setError(isError: boolean) {
-    this.setPropsAndChildren({
-      props: { isError },
-    });
+    this.setPropsAndChildren({ isError });
   }
 
-  checkIsValid() {
-    const { isValid } =  this._input.checkIsValid();
-
-    return isValid;
+  isValid() {
+    return this._input.checkIsValid().isValid;
   }
 
   getValue() {

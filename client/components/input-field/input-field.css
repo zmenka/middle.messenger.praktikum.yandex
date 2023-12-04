@@ -1,18 +1,17 @@
 .input-field {
     display: grid;
-    position: relative;
+    grid-template-columns: 1fr 60px;
 }
 
 .input-field__input {
     background-color: var(--white-color);
     border: 1px solid var(--blue-color);
     border-radius: 5px;
-    padding: 20px 10px;
+    padding: 10px;
+    font-size: var(--text-size);
 }
 
 .input-field__icon {
     color: var(--blue-color);
-    position: absolute;
-    right: 0;
-    top: 0;
+    justify-self: end;
 }

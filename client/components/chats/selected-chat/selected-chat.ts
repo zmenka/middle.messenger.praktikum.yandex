@@ -1,23 +1,33 @@
-import { Block } from '../../../block/block.ts';
-import { Icon } from '../../../components/icon/icon.ts';
-import { IconTypes } from '../../../components/icon/icon-resourses.ts';
-import { InputField } from '../../../components/input-field/input-field.ts';
-import { Link } from '../../link/link.ts';
+import { Block } from "../../../block/block.ts";
+import { Icon } from "../../../components/icon/icon.ts";
+import { IconTypes } from "../../../components/icon/icon-resourses.ts";
+import { InputField } from "../../../components/input-field/input-field.ts";
+import { Link } from "../../link/link.ts";
+import { RouterPaths } from "../../../services/router.ts";
+import { connect } from "../../../services/connect.ts";
+import { State } from "../../../services/store.ts";
+import { WS } from "../../../services/ws.ts";
+import { ChatController } from "../../../services/controllers/chat.ts";
+import { getFullImgPath } from "../../../utils/path.ts";
+import { ChatMessage, ChatMessageView, ChatUser } from "../../../utils/data.ts";
 
-import './selected-chat.css';
+import "./selected-chat.css";
+import user from "../../../services/api/user.ts";
+
+const chatController = new ChatController();
 
 export type SelectedChatProps = {
-  author?: string;
-  history?: {
+  userId?: number;
+  id?: number;
+  title?: string;
+  avatar?: string | null;
+  users?: ChatUser[];
+  history: {
     date: string;
-    messages: {
-      date: string;
-      message: string;
-      author: string;
-    }[]
+    messages: ChatMessageView[];
   }[];
-  isGroupChat?: boolean;
   notSelected: boolean;
+  readyToConnect: boolean;
 };
 
 const chatTemplate = `
@@ -25,29 +35,26 @@ const chatTemplate = `
 	<h1 class="selected-chat__empty">Choose the chat</h1>
 {{else}}
 	<div class="selected-chat__header">
-		{{{ icon }}}
-		<div class="chat-list__author">{{ author }}</div>
-		{{#if isGroupChat }}
-			{{{ changeLink }}}
-		{{/if}}
-		{{{ deleteLink }}}
+    <div class="selected-chat__avatar-cover" >
+      {{#if avatar}}
+        <img class="selected-chat__avatar" src="{{ avatar }}"/>
+      {{/if}}
+    </div>
+		<div class="chat-list__author">{{ title }}</div>
+		{{{ changeLink }}}
 	</div>
-	<div class="selected-chat__msgs">
+	<div class="selected-chat__msgs" id="selected-chat-scroller">
 			{{#each history }}
 					<div class="selected-chat__day">{{ date }}</div>
 					{{#each messages }}
-						{{#if isGroupChat }}
-							<div class="selected-chat__item {{#if author}} selected-chat__item_left {{/if}}">
-								{{{ avatar }}}
+              <div class="selected-chat__item {{#if isAuthor}} selected-chat__item_left {{/if}}">
 								<div class="selected-chat__msg">{{ message }}</div>
-								<div class="selected-chat__caption">{{ author }} ({{ date }})</div>
-							</div>
-						{{else}}
-							<div class="selected-chat__item {{#if author}} selected-chat__item_left {{/if}}">
-								<div class="selected-chat__msg">{{ message }}</div>
-								<div class="selected-chat__caption">({{ date }})</div>
-							</div>
-						{{/if}}
+                  {{#if isAuthor}}
+                    <div class="selected-chat__caption">({{ date }})</div>
+                  {{else}}
+                    <div class="selected-chat__caption">{{ author }} ({{ date }})</div>
+                  {{/if}}
+							  </div>
 					{{/each}}
 			{{/each}}
 	</div>
@@ -58,45 +65,123 @@ const chatTemplate = `
 `;
 
 export class SelectedChat extends Block<SelectedChatProps> {
-  constructor() {
-    super("div", { props: { notSelected: true }, attributes: { 'class': 'selected-chat' }});
-  }
+  _ws: WS | null = null;
 
-  render() {
-    const { notSelected, author, history, isGroupChat } = this.props;
-    return this.compile(chatTemplate, { notSelected, author, history, isGroupChat });
-  }
-
-  setChatProps(props: SelectedChatProps) {
-    const { author, history, isGroupChat } = props;
-    const icon = new Icon({
-      type: IconTypes.AVATAR,
-      className: 'selected-chat__header-avatar'
-    });
-
-    const avatar = new Icon({
-      type: IconTypes.AVATAR,
-      className: 'selected-chat__avatar'
-    });
-
+  constructor(props: SelectedChatProps) {
     const msgInput = new InputField({
-      name: 'message',
-      iconType: IconTypes.ENTER
+      name: "message",
+      iconType: IconTypes.ENTER,
+      onChange: (value: string) => {
+        if (this._ws) {
+          this._ws.sendMessage(value);
+        }
+        (this.children.msgInput as InputField).setValue('');
+      },
     });
+
+    super(
+      {
+        ...props,
+        children: { msgInput },
+        attributes: { class: "selected-chat" },
+      },
+      chatTemplate
+    );
+  }
+
+  getChildrenFromNewProps(props: SelectedChatProps) {
+    const { id } = props;
 
     const changeLink = new Link({
-      title: 'Change chat',
-      url: '/'
+      title: "Change chat",
+      url: RouterPaths.ChatSettings,
+      params: id ? { chatId: id.toString() } : undefined,
     });
 
-    const deleteLink = new Link({
-      title: 'Delete chat',
-      url: '/'
-    });
+    return { changeLink };
+  }
 
-    this.setPropsAndChildren({
-      props: { notSelected: false, author, history, isGroupChat },
-      children: { icon, avatar, msgInput, changeLink, deleteLink }
+  // componentDidUpdate(oldProps: SelectedChatProps, newProps: SelectedChatProps) {
+  //   return true;
+  // }
+
+  stateChangeCallback() {
+    const { id, userId, readyToConnect } = this.props;
+    if (!readyToConnect || !id || !userId) {
+      return;
+    }
+    console.log("stateChangeCallback");
+
+    return chatController.token(id).then((token) => {
+      if (this._ws) {
+        this._ws.close();
+      }
+      this._ws = new WS(userId, id, token);
+
+      this._ws.on(WS.EVENTS.MESSAGE, (data: ChatMessage | ChatMessage[]) => {
+        console.log("message", data);
+        if (!Array.isArray(data)) {
+          data = [data];
+        }
+        const { users, userId } = this.props;
+        const history = this.props.history.slice();
+        data.reverse().map(({ time, content, user_id }: ChatMessage) => {
+          const date = new Date(time).toLocaleDateString();
+          const msgDate = new Date(time).toLocaleTimeString();
+          // const dateStr = `${date.getDate()} ${date.getMonth()}.${date.getFullYear()}`;
+          const user = users?.find(({ id }) => id === user_id);
+          const avatar = getFullImgPath(user?.avatar);
+          const author = user
+            ? `${user.first_name} ${user.second_name}`
+            : user_id.toString();
+          const isAuthor = user_id === userId;
+
+          const message = {
+            isAuthor,
+            avatar,
+            author,
+            message: content,
+            date: msgDate,
+          };
+
+          if (history.length && history[history.length - 1].date === date) {
+            history[history.length - 1].messages.push(message);
+          } else {
+            history.push({
+              date,
+              messages: [message],
+            });
+          }
+        });
+
+        console.log("history", history);
+        this.setPropsAndChildren({ history });
+
+        const div = document.getElementById('selected-chat-scroller');
+        div?.scrollTo({
+          top: div.scrollHeight,
+          behavior: 'smooth'
+    });
+      });
+
+      return this._ws.connect().then(() => {
+        this._ws?.requestMessages();
+      });
     });
   }
 }
+
+function mapStateToProps({ selectedChat, user }: State): SelectedChatProps {
+  return {
+    userId: user?.id,
+    notSelected: !selectedChat,
+    id: selectedChat?.id,
+    title: selectedChat?.title,
+    avatar: getFullImgPath(selectedChat?.avatar),
+    users: selectedChat?.users,
+    history: [],
+    readyToConnect: !!user?.id && !!selectedChat?.id && !!selectedChat?.users
+  };
+}
+
+export const ConnectedSelectedChat = connect(SelectedChat, mapStateToProps);

@@ -6,6 +6,10 @@
     padding: 0;
 }
 
+.icon svg {
+    vertical-align: middle;
+}
+
 .icon_active {
     color: var(--white-color);
 }

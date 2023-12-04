@@ -2,19 +2,13 @@ import { v4 as makeUUID } from 'uuid';
 import Handlebars from "handlebars";
 import { EventBus } from '../services/event-bus.ts';
 
-export interface BlockProps<Props>  {
-  props?: Props;
-  children?: { [key: string]: Block<any> | Block<any>[] };
+export type BlockProps<Props> = Props & {
+  children?: { [key: string]: Block | Block[] };
   events?: { [key: string]: EventListener };
   attributes?: { [key: string]: string };
 }
 
-interface PartialBlockProps<Props> {
-  props?: Partial<Props>;
-  children?: { [key: string]: Block<any> | Block<any>[] };
-}
-
-export class Block<Props extends Record<string, any>> {
+export class Block<Props extends Record<string, any> = Record<string, any>> {
   static EVENTS = {
     INIT: "init",
     FLOW_CDM: "flow:component-did-mount",
@@ -29,17 +23,20 @@ export class Block<Props extends Record<string, any>> {
   _id: string;
   _setUpdate = false;
   _props: Props;
-  _children: { [key: string]: Block<any> | Block<any>[] };
+  _children: { [key: string]: Block | Block[] };
   _events:  { [key: string]: EventListener };
   _attributes: { [key: string]: string };
   eventBus: EventBus;
+  _template:string;
 
-  constructor(tagName: string = "div", allProps?: BlockProps<Props>) {
+  constructor(allProps?: BlockProps<Props>, template: string = '', tagName: string = "div") {
     this._meta = {
       tagName
     };
 
-    const { children = {}, events = {}, attributes = {} , props = {}} = allProps || {};
+    this._template = template;
+
+    const { children = {}, events = {}, attributes = {} , ...props } = allProps || {};
 
     this._children = this._makePropsProxy(children);
     this._events = events;
@@ -56,8 +53,8 @@ export class Block<Props extends Record<string, any>> {
     this.eventBus.emit(Block.EVENTS.INIT);
   }
 
-  compile(template: string, props?: Record<string, any>) {
-    const propsAndStubs = props ? { ...props } : {};
+  compile(additionalProps?: Record<string, any>) {
+    const propsAndStubs: Record<string, any> = {...this._props, ...additionalProps};
 
     Object.entries(this._children).forEach(([key, child]) => {
       if (Array.isArray(child)) {
@@ -73,7 +70,7 @@ export class Block<Props extends Record<string, any>> {
 
     const fragment = document.createElement('template');
 
-    fragment.innerHTML = Handlebars.compile(template)(propsAndStubs);
+    fragment.innerHTML = Handlebars.compile(this._template)(propsAndStubs);
 
     Object.values(this._children).forEach(child => {
       if (Array.isArray(child)) {
@@ -143,10 +140,10 @@ export class Block<Props extends Record<string, any>> {
     return true;
   }
 
-  setPropsAndChildren = (nextProps: PartialBlockProps<Props>) => {
+  setPropsAndChildren(nextProps: Partial<Omit<BlockProps<Props>, 'events' | 'attributes'>>) {
     this._setUpdate = false;
     const oldProps = {...this._props};
-    const { props = {}, children = {} } = nextProps;
+    const { children = {}, ...props } = nextProps;
 
     if (Object.values(props).length)
       Object.assign(this._props, props);
@@ -159,6 +156,18 @@ export class Block<Props extends Record<string, any>> {
       this._setUpdate = false;
     }
   };
+
+  stateChangeCallback() {
+    return;
+  }
+
+  getChildrenFromNewProps(_nextProps: Partial<Props>) {
+    return {};
+  }
+
+  // stateChangeCallback() {
+  //   return;
+  // }
 
   get element() {
     return this._element;
@@ -187,6 +196,9 @@ export class Block<Props extends Record<string, any>> {
   }
 
   render(): HTMLElement | DocumentFragment | null {
+    if (this._template) {
+      return this.compile();
+    }
     return null;
   }
 
@@ -260,4 +272,12 @@ export class Block<Props extends Record<string, any>> {
       this._element.removeEventListener(eventName, events[eventName]);
     });
   }
+
+  remove() {
+    console.log('hide');
+    this._removeEvents();
+    this.getContent().remove();
+  }
 }
+
+

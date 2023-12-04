@@ -1,5 +1,5 @@
 import { Block, BlockProps } from '../../block/block.ts';
-import { ValidationTypes, ValidationFunc, getValidateionFunc } from '../../services/validation.ts';
+import { ValidationTypes, ValidationFunc, getValidateionFunc } from '../../utils/validation.ts';
 
 export enum InputTypes {
   'TEXT' = 'text',
@@ -12,11 +12,15 @@ type InputProps = Record<string, any>;
 
 export class Input extends Block<InputProps> {
   constructor(props: BlockProps<InputProps>) {
-    super("input", props);
+    super(props, undefined, 'input');
   }
 
   getValue() {
     return (this._element as HTMLInputElement).value;
+  }
+
+  setValue(value: string) {
+    (this._element as HTMLInputElement).value = value;
   }
 }
 

@@ -4,13 +4,6 @@
     height: 100%;
 }
 
-.main__menu {
-    background-color: var(--blue-color);
-    display: grid;
-    padding: 20px 0;
-    place-content: start center; 
-    row-gap: 20px;
-}
 
 .main__content {
     overflow: auto;

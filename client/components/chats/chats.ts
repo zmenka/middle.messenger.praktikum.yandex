@@ -2,19 +2,20 @@ import { Block } from '../../block/block.ts';
 import { IconTypes } from '../../components/icon/icon-resourses.ts';
 import { InputField } from '../../components/input-field/input-field.ts';
 import { ChatProps, Chat } from './chat/chat.ts';
-import { SelectedChat, SelectedChatProps } from './selected-chat/selected-chat.ts';
+import { SelectedChat, SelectedChatProps, ConnectedSelectedChat } from './selected-chat/selected-chat.ts';
+import router, { RouterPaths } from '../../services/router.ts'
+import { connect } from '../../services/connect.ts';
+import { State } from '../../services/store.ts';
+
 import './chats.css';
 
 export type ChatsProps = {
   chats: Omit<ChatProps, "onSelect">[];
-  onChatSelect: (chatId: string) => SelectedChatProps
+  onChatSelect: (chatId: number) => void;
 };
 
 const chatsTemplate = `
 <div class="chats__panel">
-	<div class="chats__search">
-			{{{ searchInput }}}
-	</div>
 	<ul class="chats__list">
 			{{#each chats }}
 					<li class="chats__item">
@@ -27,36 +28,48 @@ const chatsTemplate = `
 	`;
 
 export class Chats extends Block<ChatsProps> {
-  _searchInput:InputField;
-  _chats: Chat[];
-  _selectedChat: SelectedChat;
-
   constructor(props: ChatsProps) {
-    const { chats: chatsProps } = props;
-    const searchInput = new InputField({
-      name: 'search',
-      iconType: IconTypes.ENTER
-    });
+    const { chats: chatsProps, onChatSelect } = props;
 
-    const chats = chatsProps.map(chatProps => new Chat({ ...chatProps, onSelect: (chatId: string) => {
-      return this.onSelect(chatId);
+    const chats = chatsProps.map(chatProps => new Chat({ ...chatProps, onSelect: (chatId: number) => {
+      onChatSelect(chatId);
     } }));
 
-    const selectedChat = new SelectedChat();
+    const selectedChat = new ConnectedSelectedChat();
 
-    super("div", { props, children: { searchInput, chats, selectedChat }, attributes: { 'class': 'chats' }});
-
-    this._searchInput = searchInput;
-    this._chats = chats;
-    this._selectedChat = selectedChat;
+    super({ ...props, children: { chats, selectedChat }, attributes: { 'class': 'chats' }}, chatsTemplate);
   }
 
-  render() {
-    return this.compile(chatsTemplate, {});
-  }
+  getChildrenFromNewProps(nextProps: Partial<ChatsProps>) {
+    if (!nextProps.chats) {
+      return {};
+    }
+    const chats = nextProps.chats.map(chatProps => new Chat({ ...chatProps, onSelect: (chatId: number) => {
+      this.props.onChatSelect(chatId);
+    } }));
 
-  onSelect(chatId: string) {
-    const selectedChatProps = this.props.onChatSelect(chatId);
-    this._selectedChat.setChatProps(selectedChatProps);
+    return { chats };
   }
 }
+
+
+function mapStateToProps({ chatsMap = {}, chatsOrder = [], selectedChat }: State): Omit<ChatsProps, 'onChatSelect'>{
+  const selectedChatId = selectedChat?.id;
+
+  return {
+    chats: chatsOrder.map(( chatId )=> {
+      const { id, title, avatar, unread_count, last_message  } = chatsMap[chatId];
+
+      return {
+        id,
+        title,
+        avatar,
+        unreadCount: unread_count,
+        lastMessage: last_message?.content || null,
+        selected: id === selectedChatId
+      }
+    })
+  };
+}
+
+export const ConnectedChats = connect(Chats, mapStateToProps);

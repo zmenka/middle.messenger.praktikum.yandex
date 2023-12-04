@@ -1,8 +1,10 @@
 import { Block } from '../../block/block.ts';
+import { Link} from '../../components/link/link';
 
 const indexTemplate = `
 <h1>List of pages</h1>
 <nav>
+{{{ link }}}
 <ul>
     <li>
     <a href="/sign-in">Sign In</a>
@@ -26,10 +28,15 @@ const indexTemplate = `
 </nav>
 `;
 
-class IndexPage extends Block<Record<string, any>> {
+export class IndexPage extends Block {
 
   constructor() {
-    super("div");
+    const link = new Link({
+      title: 'test',
+      url: '/test'
+    });
+
+    super("div", { children: { link }});
   }
 
   render() {
@@ -37,4 +44,4 @@ class IndexPage extends Block<Record<string, any>> {
   }
 }
 
-export const indexPage = new IndexPage();
+export const indexPage = () => new IndexPage();

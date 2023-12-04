@@ -1,0 +1,17 @@
+
+.input-field-search {
+    position: relative;
+}
+
+.input-field-search__options {
+    position: absolute;
+    min-width: 160px;
+    border: 1px solid var(--blue-color);
+    background-color: var(--white-color);
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.input-field-search__option {
+    padding: 10px;
+}

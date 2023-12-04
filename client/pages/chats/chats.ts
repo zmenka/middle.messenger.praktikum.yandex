@@ -1,35 +1,59 @@
 import { Main } from '../../layouts/main/main.ts';
 import { IconTypes } from '../../components/icon/icon-resourses.ts';
-import { Chats } from '../../components/chats/chats.ts';
+import { ConnectedChats } from '../../components/chats/chats.ts';
+import { Block } from '../../block/block.ts';
 import { SelectedChatProps } from '../../components/chats/selected-chat/selected-chat.ts';
-import data from './data.json';
+import { ChatController } from '../../services/controllers/chat.ts'
+import { AuthController } from '../../services/controllers/auth.ts'
+import store, { State } from '../../services/store.ts'
+import router, { RouterPaths } from '../../services/router.ts'
+import { getParams } from '../../utils/path.ts'
 
-const onChatSelect = (chatId: string) => {
-  const chat = data.chats.find(({ id }) => id===chatId);
+const authController = new AuthController();
+const chatController = new ChatController();
 
-  return <SelectedChatProps>{
-    author: chat?.author,
-    history: (data.history as any)[chatId],
-    isGroupChat: chat?.isGroupChat
-  };
-};
+const setSelectedChat = (chatId: number) => {
+  const { chatsMap = {} } = store.getState();
+  const selectedChat = chatsMap[chatId];
 
-export const chatsPage = new Main({
-  menus: [
-    {
-      isActive: true,
-      type: IconTypes.AVATAR
-    },
-    {
-      type: IconTypes.CHAT
-    },
-    {
-      type: IconTypes.PLUS
-    }
-  ],
+  if (!selectedChat) {
+    return false;
+  }
 
-  content: new Chats({
-    chats: data.chats,
-    onChatSelect
-  })
-});
+  store.set('selectedChat', { ...selectedChat });
+  return true;
+}
+
+export const ChatsPage = () => {
+  console.log('INIT CHATS PAGE');
+  store.set('selectedChat', null);
+  authController.user()
+    .then(() => chatController.list())
+    .then(() => {
+      const { currentPath } = store.getState();
+      const { chatId } = getParams(RouterPaths.Chats, currentPath);
+
+      const id = parseInt(chatId);
+
+      if (isNaN(id) || !setSelectedChat(id)) {
+        router.go(RouterPaths.Chats);
+        return;
+      }
+
+      return chatController.getUsers(id)
+    })
+    .catch((err) => {
+      console.log('ChatsPage', err);
+    });
+
+  return new Main({
+    children: new ConnectedChats({
+      onChatSelect: (chatId: number) => {
+        store.set('selectedChat', null);
+        setSelectedChat(chatId);
+        chatController.getUsers(chatId);
+        router.go(RouterPaths.Chats, { chatId });
+      }
+    })
+  });
+}
