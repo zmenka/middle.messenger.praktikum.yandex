@@ -1,29 +1,28 @@
 :root {
-    --blue-color: #0E5A85;
-    --white-color: #FFF;
-    --light-blue-color: #ECF8FF;
-    --red-color: #EF3030;
-    --gray-color: #C3C2C8;
-    --caption-size: 10px;
-    --text-size: 15px;
-    --title-size: 20px;
+  --blue-color: #0e5a85;
+  --white-color: #fff;
+  --light-blue-color: #ecf8ff;
+  --red-color: #ef3030;
+  --gray-color: #c3c2c8;
+  --caption-size: 10px;
+  --text-size: 15px;
+  --title-size: 20px;
 }
 
-
 * {
-    font-family: Arial, sans-serif;
+  font-family: Arial, sans-serif;
 }
 
 html {
-    height: 100%;
+  height: 100%;
 }
 
 body {
-    height: 100%;
-    margin: 0;
-    overflow: hidden;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
 }
 
 main {
-    height: 100%;
+  height: 100%;
 }

@@ -15,11 +15,15 @@ export type IconProps = {
 export class Icon extends Block<IconProps> {
   constructor(props: IconProps) {
     const { className, isActive, click } = props;
-    const attributes = { 'class': `icon ${className || ''}` };
+    const attributes = { class: `icon ${className || ''}` };
     if (isActive) {
       attributes['class'] = `${attributes['class']} icon_active`;
     }
-    super({ ...props, attributes, events: click ? { click } : {}  }, iconTemplate, click ? 'button' : 'i');
+    super(
+      { ...props, attributes, events: click ? { click } : {} },
+      iconTemplate,
+      click ? 'button' : 'i'
+    );
   }
 
   render() {
@@ -29,6 +33,8 @@ export class Icon extends Block<IconProps> {
   }
 
   setActive(isActive: boolean) {
-    isActive ? this.addClass(['icon_active']) : this.removeClass(['icon_active']);
+    isActive
+      ? this.addClass(['icon_active'])
+      : this.removeClass(['icon_active']);
   }
 }

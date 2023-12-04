@@ -14,7 +14,7 @@ export class Link extends Block<LinkProps> {
   constructor(props: LinkProps) {
     const { url, click, params = {} } = props;
 
-    const path = url ? getPathWithParams(url, params) : '#'
+    const path = url ? getPathWithParams(url, params) : '#';
 
     const onClick = (event: Event) => {
       event.preventDefault();
@@ -26,7 +26,15 @@ export class Link extends Block<LinkProps> {
       url && router.go(url, params);
     };
 
-    super({ ...props, attributes: { 'class': 'link', 'href': path }, events: { click: onClick} }, undefined, 'a');
+    super(
+      {
+        ...props,
+        attributes: { class: 'link', href: path },
+        events: { click: onClick },
+      },
+      undefined,
+      'a'
+    );
   }
 
   render() {

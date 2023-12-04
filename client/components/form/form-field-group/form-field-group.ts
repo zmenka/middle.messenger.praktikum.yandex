@@ -1,10 +1,7 @@
 import { Block } from '../../../block/block.ts';
-import { InputTypes, Input } from '../../../components/input/input.ts';
 import { InputFieldSearch } from '../../../components/input-field-search/input-field-search.ts';
 import { Icon } from '../../../components/icon/icon.ts';
 import { IconTypes } from '../../../components/icon/icon-resourses.ts';
-import { ValidationTypes } from '../../../utils/validation.ts';
-import { FormField, FormFieldProps } from '../form-field/form-field.ts';
 import './form-field-group.css';
 
 const fieldGroupTemplate = `
@@ -18,82 +15,94 @@ const fieldGroupTemplate = `
 export type FormFieldGroupProps = {
   title: string;
   name: string;
-  options: { title: string, id: any }[];
-  onSearch: (search: string) => Promise<{title: string, id: any}[]>;
+  options: { title: string; id: any }[];
+  onSearch: (search: string) => Promise<{ title: string; id: any }[]>;
 };
 
 export class FormFieldGroup extends Block<FormFieldGroupProps> {
   controls: Option[];
 
-  constructor(props: FormFieldGroupProps ) {
+  constructor(props: FormFieldGroupProps) {
     const { options, onSearch } = props;
 
-    let controls: Option[] = [];
+    const controls: Option[] = [];
     options.reduce((accum, { title, id }) => {
-      accum.push(new Option({
-        title,
-        id,
-        onDelete: (id: any) => {
-          const deletedOption = controls.find(control => control.props.id === id);
-          this.controls = this.controls.filter(control => control.props.id !== id);
+      accum.push(
+        new Option({
+          title,
+          id,
+          onDelete: (id: any) => {
+            const deletedOption = controls.find(
+              (control) => control.props.id === id
+            );
+            this.controls = this.controls.filter(
+              (control) => control.props.id !== id
+            );
 
-          deletedOption?.remove();
+            deletedOption?.remove();
 
-          this.setPropsAndChildren({ children: { controls: this.controls }});
-        }
-      }));
+            this.setPropsAndChildren({ children: { controls: this.controls } });
+          },
+        })
+      );
 
       return accum;
-    }, controls)
+    }, controls);
 
     const search = new InputFieldSearch({
       onSearch,
-      onSelect: ({ title, id }: {title: string, id: any}) => {
-        console.log('SELECT', { title, id })
+      onSelect: ({ title, id }: { title: string; id: any }) => {
+
         this.addOption({ title, id });
       },
       iconType: IconTypes.PLUS,
-      placeholder: 'Введите логин пользователя'
-     });
+      placeholder: `Enter the user's login`,
+    });
 
-    super({ ...props, children: { controls, search}, attributes: { class: 'form-field-group' } }, fieldGroupTemplate);
+    super(
+      {
+        ...props,
+        children: { controls, search },
+        attributes: { class: 'form-field-group' },
+      },
+      fieldGroupTemplate
+    );
 
     this.controls = controls;
   }
 
-  addOption({ title, id }: { title: string, id: any }) {
+  addOption({ title, id }: { title: string; id: any }) {
     const option = new Option({
       title,
       id,
       onDelete: (id: any) => {
-        const deletedOption = this.controls.find(control => control.props.id === id);
-        this.controls = this.controls.filter(control => control.props.id !== id);
+        const deletedOption = this.controls.find(
+          (control) => control.props.id === id
+        );
+        this.controls = this.controls.filter(
+          (control) => control.props.id !== id
+        );
 
         deletedOption?.remove();
 
-        this.setPropsAndChildren({ children: { controls: this.controls }});
-      }
-    })
-    const controls = [...this.controls, option]
+        this.setPropsAndChildren({ children: { controls: this.controls } });
+      },
+    });
+    const controls = [...this.controls, option];
     this.controls = controls;
 
-    this.setPropsAndChildren({ children: { controls }});
+    this.setPropsAndChildren({ children: { controls } });
   }
 
-  render(): HTMLElement | DocumentFragment | null {
-    console.log('RENDER', this)
-    return super.render();
-  }
-
-  setError(_isError: boolean) {
-  }
+  /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+  setError(_isError: boolean) {}
 
   isValid() {
     return true;
   }
 
   getValue() {
-    return this.controls.map(control => control.getValue());
+    return this.controls.map((control) => control.getValue());
   }
 }
 
@@ -114,21 +123,22 @@ class Option extends Block<OptionProps> {
     const { className, onDelete, id } = props;
 
     const icon = new Icon({
-        type: IconTypes.CLOSE,
-        className: 'form-field-group__close-icon',
-        click: event => {
-          event.preventDefault();
+      type: IconTypes.CLOSE,
+      className: 'form-field-group__close-icon',
+      click: (event) => {
+        event.preventDefault();
 
-          onDelete(id);
-        }
-      });
+        onDelete(id);
+      },
+    });
 
-    super({
-      ...props,
-      children: { icon },
-      attributes: { 'class': `form-field-group__option ${className || ''}` }
-    },
-    optionTemplate
+    super(
+      {
+        ...props,
+        children: { icon },
+        attributes: { class: `form-field-group__option ${className || ''}` },
+      },
+      optionTemplate
     );
   }
 

@@ -15,17 +15,17 @@
 }
 
 .selected-chat__avatar {
+  height: 30px;
   object-fit: cover;
   width: 30px;
-  height: 30px;
 }
 
 .selected-chat__avatar-cover {
-  width: 30px;
-  height: 30px;
   border: 2px solid var(--blue-color);
   border-radius: 5px;
+  height: 30px;
   overflow: hidden;
+  width: 30px;
 }
 
 .selected-chat__new-msg {
@@ -80,4 +80,3 @@
   grid-row: 2;
   margin: auto;
 }
-

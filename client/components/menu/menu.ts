@@ -25,28 +25,40 @@ class Menu extends Block<MenuProps> {
     const menus: { [key: string]: Icon } = {
       [getPathWithoutParams(RouterPaths.Profile)]: new Icon({
         type: IconTypes.AVATAR,
-        click: () => router.go(RouterPaths.Profile)
+        click: () => router.go(RouterPaths.Profile),
       }),
       [getPathWithoutParams(RouterPaths.Chats)]: new Icon({
         type: IconTypes.CHAT,
-        click: () => router.go(RouterPaths.Chats)
+        click: () => {
+          router.go(RouterPaths.Chats);
+        },
       }),
       [getPathWithoutParams(RouterPaths.ChatSettings)]: new Icon({
         type: IconTypes.PLUS,
-        click: () => router.go(RouterPaths.ChatSettings)
+        click: () => {
+          router.go(RouterPaths.ChatSettings);
+        },
       }),
     };
     menus[currentPath]?.setActive(true);
 
-    super({ currentPath, children: { menus: Object.values(menus) }, attributes: { 'class': 'menu' } }, menuTemplate, 'nav');
+    super(
+      {
+        currentPath,
+        children: { menus: Object.values(menus) },
+        attributes: { class: 'menu' },
+      },
+      menuTemplate,
+      'nav'
+    );
 
     this.menus = menus;
   }
 }
 
-function mapStateToProps({ currentPath }: State): MenuProps{
+function mapStateToProps({ currentPath }: State): MenuProps {
   return {
-    currentPath: getPathWithoutParams(currentPath)
+    currentPath: getPathWithoutParams(currentPath),
   };
 }
 

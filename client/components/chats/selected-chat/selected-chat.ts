@@ -1,18 +1,17 @@
-import { Block } from "../../../block/block.ts";
-import { Icon } from "../../../components/icon/icon.ts";
-import { IconTypes } from "../../../components/icon/icon-resourses.ts";
-import { InputField } from "../../../components/input-field/input-field.ts";
-import { Link } from "../../link/link.ts";
-import { RouterPaths } from "../../../services/router.ts";
-import { connect } from "../../../services/connect.ts";
-import { State } from "../../../services/store.ts";
-import { WS } from "../../../services/ws.ts";
-import { ChatController } from "../../../services/controllers/chat.ts";
-import { getFullImgPath } from "../../../utils/path.ts";
-import { ChatMessage, ChatMessageView, ChatUser } from "../../../utils/data.ts";
+import { Block } from '../../../block/block.ts';
+import { IconTypes } from '../../../components/icon/icon-resourses.ts';
+import { InputField } from '../../../components/input-field/input-field.ts';
+import { Link } from '../../link/link.ts';
+import { RouterPaths } from '../../../services/router.ts';
+import { connect } from '../../../services/connect.ts';
+import { State } from '../../../services/store.ts';
+import { WS } from '../../../services/ws.ts';
+import { ChatController } from '../../../services/controllers/chat.ts';
+import { getFullImgPath } from '../../../utils/path.ts';
+import { ChatMessage, ChatMessageView, ChatUser } from '../../../utils/data.ts';
+import { getParamFromQuery } from '../../../utils/path.ts';
 
-import "./selected-chat.css";
-import user from "../../../services/api/user.ts";
+import './selected-chat.css';
 
 const chatController = new ChatController();
 
@@ -69,7 +68,7 @@ export class SelectedChat extends Block<SelectedChatProps> {
 
   constructor(props: SelectedChatProps) {
     const msgInput = new InputField({
-      name: "message",
+      name: 'message',
       iconType: IconTypes.ENTER,
       onChange: (value: string) => {
         if (this._ws) {
@@ -83,7 +82,7 @@ export class SelectedChat extends Block<SelectedChatProps> {
       {
         ...props,
         children: { msgInput },
-        attributes: { class: "selected-chat" },
+        attributes: { class: 'selected-chat' },
       },
       chatTemplate
     );
@@ -93,7 +92,7 @@ export class SelectedChat extends Block<SelectedChatProps> {
     const { id } = props;
 
     const changeLink = new Link({
-      title: "Change chat",
+      title: 'Change chat',
       url: RouterPaths.ChatSettings,
       params: id ? { chatId: id.toString() } : undefined,
     });
@@ -101,16 +100,11 @@ export class SelectedChat extends Block<SelectedChatProps> {
     return { changeLink };
   }
 
-  // componentDidUpdate(oldProps: SelectedChatProps, newProps: SelectedChatProps) {
-  //   return true;
-  // }
-
   stateChangeCallback() {
     const { id, userId, readyToConnect } = this.props;
     if (!readyToConnect || !id || !userId) {
       return;
     }
-    console.log("stateChangeCallback");
 
     return chatController.token(id).then((token) => {
       if (this._ws) {
@@ -119,7 +113,6 @@ export class SelectedChat extends Block<SelectedChatProps> {
       this._ws = new WS(userId, id, token);
 
       this._ws.on(WS.EVENTS.MESSAGE, (data: ChatMessage | ChatMessage[]) => {
-        console.log("message", data);
         if (!Array.isArray(data)) {
           data = [data];
         }
@@ -154,14 +147,13 @@ export class SelectedChat extends Block<SelectedChatProps> {
           }
         });
 
-        console.log("history", history);
         this.setPropsAndChildren({ history });
 
         const div = document.getElementById('selected-chat-scroller');
         div?.scrollTo({
           top: div.scrollHeight,
-          behavior: 'smooth'
-    });
+          behavior: 'smooth',
+        });
       });
 
       return this._ws.connect().then(() => {
@@ -171,7 +163,15 @@ export class SelectedChat extends Block<SelectedChatProps> {
   }
 }
 
-function mapStateToProps({ selectedChat, user }: State): SelectedChatProps {
+function mapStateToProps({
+  selectedChat,
+  user,
+  queryParams,
+}: State): SelectedChatProps {
+  const currentChatId = getParamFromQuery('chatId', 'number', queryParams) as
+    | number
+    | undefined;
+
   return {
     userId: user?.id,
     notSelected: !selectedChat,
@@ -180,7 +180,11 @@ function mapStateToProps({ selectedChat, user }: State): SelectedChatProps {
     avatar: getFullImgPath(selectedChat?.avatar),
     users: selectedChat?.users,
     history: [],
-    readyToConnect: !!user?.id && !!selectedChat?.id && !!selectedChat?.users
+    readyToConnect:
+      !!user?.id &&
+      !!selectedChat?.id &&
+      !!selectedChat?.users &&
+      currentChatId === selectedChat?.id,
   };
 }
 

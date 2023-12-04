@@ -7,11 +7,10 @@ export type ButtonProps = {
   click?: EventListener;
 };
 
-// export class Button extends Block<ButtonProps> {
 export class Button extends Block<ButtonProps> {
   constructor(props: ButtonProps) {
     const { isDisabled, click } = props;
-    const attributes: { [key: string]: string } = { 'class': 'button' };
+    const attributes: { [key: string]: string } = { class: 'button' };
 
     if (isDisabled) {
       attributes['disabled'] = '';
@@ -22,7 +21,7 @@ export class Button extends Block<ButtonProps> {
       events['click'] = click;
     }
 
-    super({ ...props, events, attributes  }, undefined, "button");
+    super({ ...props, events, attributes }, undefined, 'button');
   }
 
   render() {
@@ -33,6 +32,8 @@ export class Button extends Block<ButtonProps> {
   }
 
   setDisabled(isDisabled: boolean) {
-    isDisabled ? this.setAttribute('disabled', '') : this.removeAttribute('disabled');
+    isDisabled
+      ? this.setAttribute('disabled', '')
+      : this.removeAttribute('disabled');
   }
 }

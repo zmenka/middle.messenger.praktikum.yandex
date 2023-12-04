@@ -1,8 +1,8 @@
-import store from "../store";
-import ChatApi from "../api/chat";
-import { catchPromiseWithModalError } from "./base";
-import { Chat } from "../../utils/data";
-import router, { RouterPaths } from "../router";
+import store from '../store';
+import ChatApi from '../api/chat';
+import { catchPromiseWithModalError } from './base';
+import { Chat } from '../../utils/data';
+import router, { RouterPaths } from '../router';
 
 export class ChatController {
   @catchPromiseWithModalError
@@ -16,16 +16,16 @@ export class ChatController {
         chatsMap[chat.id] = chat;
       });
 
-      store.set("chatsMap", chatsMap);
-      store.set("chatsOrder", orders);
+      store.set('chatsMap', chatsMap);
+      store.set('chatsOrder', orders);
     });
   }
 
   @catchPromiseWithModalError
   public create(title: string) {
     return ChatApi.create(title).then((id) => {
-      store.set("selectedChat.id", id);
-      store.set("selectedChat.title", title);
+      store.set('selectedChat.id', id);
+      store.set('selectedChat.title', title);
       router.go(RouterPaths.ChatSettings, { chatId: id });
       return id;
     });
@@ -34,7 +34,7 @@ export class ChatController {
   @catchPromiseWithModalError
   public getUsers(chatId: number) {
     return ChatApi.getUsers(chatId).then((users) => {
-      store.set("selectedChat.users", users);
+      store.set('selectedChat.users', users);
     });
   }
 
@@ -51,7 +51,7 @@ export class ChatController {
   @catchPromiseWithModalError
   public changeAvatar(chatId: number, data: FormData) {
     return ChatApi.changeAvatar(chatId, data).then((chat) => {
-      store.set("selectedChat", chat);
+      store.set('selectedChat', chat);
       return chat.id;
     });
   }
@@ -59,9 +59,5 @@ export class ChatController {
   @catchPromiseWithModalError
   public token(chatId: number) {
     return ChatApi.token(chatId);
-    // .then((token) => {
-    //   store.set('token', token);
-    //   return token;
-    // })
   }
 }

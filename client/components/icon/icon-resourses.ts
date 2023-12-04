@@ -42,5 +42,5 @@ export const IconSvgs: {
   [IconTypes.CHECK]: checkSvg,
   [IconTypes.CLOSE]: closeSvg,
   [IconTypes.ENTER]: enterSvg,
-  [IconTypes.PLUS]: plusSvg
+  [IconTypes.PLUS]: plusSvg,
 };

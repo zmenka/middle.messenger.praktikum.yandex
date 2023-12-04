@@ -1,7 +1,7 @@
 import { Block } from '../block/block.ts';
 import { Route } from './route.ts';
 import store from './store.ts';
-import { getPathWithParams, getPathWithoutParams } from '../utils/path.ts';
+import { getPathWithParams, getParamsWithoutTemplate } from '../utils/path.ts';
 
 export enum RouterPaths {
   SignIn = '/',
@@ -32,7 +32,6 @@ export class Router {
 
   start() {
     window.onpopstate = (event) => {
-      console.log('onpopstate', event)
       const path = (event.currentTarget as Window)?.location.pathname;
       this._onRoute(path);
     };
@@ -49,10 +48,10 @@ export class Router {
       return;
     }
 
-    store.set('currentPath', path)
+    store.set('currentPath', path);
+    store.set('queryParams', getParamsWithoutTemplate(path));
 
     if (this._currentRoute?.template === route.template) {
-      console.log('the same route', path);
       return;
     }
 
@@ -66,7 +65,10 @@ export class Router {
 
   go(pathname: RouterPaths, params: Record<string, string | number> = {}) {
     const path = getPathWithParams(pathname, params);
-    this.history.pushState({}, "", path);
+    if (store.getState().currentPath === path) {
+      return;
+    }
+    this.history.pushState({}, '', path);
     this._onRoute(path);
   }
 
@@ -79,7 +81,7 @@ export class Router {
   }
 
   getRoute(path: string) {
-    return this.routes.find(route => route.match(path));
+    return this.routes.find((route) => route.match(path));
   }
 }
 

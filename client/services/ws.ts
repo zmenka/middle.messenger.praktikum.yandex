@@ -5,11 +5,11 @@ const WS_URL = 'wss://ya-praktikum.tech/ws/chats/:userId/:chatId/:token';
 
 export class WS extends EventBus {
   static EVENTS = {
-    OPEN: "WS:open",
-    CONNECTED: "WS:connected",
-    MESSAGE: "WS:message",
-    ERROR: "WS:error",
-    CLOSE: "WS:close"
+    OPEN: 'WS:open',
+    CONNECTED: 'WS:connected',
+    MESSAGE: 'WS:message',
+    ERROR: 'WS:error',
+    CLOSE: 'WS:close',
   };
 
   socket?: WebSocket;
@@ -20,7 +20,6 @@ export class WS extends EventBus {
   constructor(userId: number, chatId: number, token: string) {
     super();
     this.url = getPathWithParams(WS_URL, { userId, chatId, token });
-    console.log('WS INIT')
   }
 
   send(data: string | object) {
@@ -53,8 +52,8 @@ export class WS extends EventBus {
       this.on(WS.EVENTS.CONNECTED, () => {
         this.off(WS.EVENTS.ERROR, reject);
         resolve();
-      })
-    })
+      });
+    });
   }
 
   close() {
@@ -64,26 +63,26 @@ export class WS extends EventBus {
 
   setupPing() {
     this.ping = setInterval(() => {
-      this.send({ type: 'ping'})
+      this.send({ type: 'ping' });
     }, this.pingInterval);
 
     this.on(WS.EVENTS.CLOSE, () => {
       clearInterval(this.ping);
-    })
+    });
   }
 
   subscribe(socket: WebSocket) {
     socket.addEventListener('open', () => {
       this.emit(WS.EVENTS.CONNECTED);
-    })
+    });
 
     socket.addEventListener('close', () => {
       this.emit(WS.EVENTS.CLOSE);
-    })
+    });
 
     socket.addEventListener('error', (error) => {
       this.emit(WS.EVENTS.ERROR, error);
-    })
+    });
 
     socket.addEventListener('message', (message) => {
       try {
@@ -97,7 +96,6 @@ export class WS extends EventBus {
       } catch (e) {
         console.log('WS', e);
       }
-    })
+    });
   }
 }
-

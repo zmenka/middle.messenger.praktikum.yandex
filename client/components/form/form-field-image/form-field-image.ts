@@ -22,31 +22,40 @@ export type FormFieldImageProps = {
 export class FormFieldImage extends Block<FormFieldImageProps> {
   _input: Input;
 
-  constructor(props: FormFieldImageProps ) {
+  constructor(props: FormFieldImageProps) {
     const { name } = props;
 
     const currentPath = getFullImgPath(props.currentPath);
-    // const currentPath = '';
 
     const input = new Input({
       events: {
-        change: () =>{
-          const file = this.getFile()
-          if (file ) {
-            this.setPropsAndChildren({ currentPath: URL.createObjectURL(file) })
+        change: () => {
+          const file = this.getFile();
+          if (file) {
+            this.setPropsAndChildren({
+              currentPath: URL.createObjectURL(file),
+            });
           }
         },
       },
       attributes: {
-        'class': 'form-field-image__input',
-        'type': 'file',
-        'accept': 'image/png, image/jpeg',
-        'name': name,
-        'id': name,
-      }
+        class: 'form-field-image__input',
+        type: 'file',
+        accept: 'image/png, image/jpeg',
+        name: name,
+        id: name,
+      },
     });
 
-    super({ ...props, currentPath, children: { input }, attributes: { class: 'form-field-image' } }, fieldImageTemplate);
+    super(
+      {
+        ...props,
+        currentPath,
+        children: { input },
+        attributes: { class: 'form-field-image' },
+      },
+      fieldImageTemplate
+    );
 
     this._input = input;
   }
@@ -55,6 +64,7 @@ export class FormFieldImage extends Block<FormFieldImageProps> {
     return true;
   }
 
+  /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
   setError(_isError: boolean) {
     return;
   }
@@ -75,7 +85,6 @@ export class FormFieldImage extends Block<FormFieldImageProps> {
 
     if (!input.files || !input.files.length) return null;
 
-    return input.files[0]
-
+    return input.files[0];
   }
 }

@@ -1,5 +1,5 @@
 import { Block } from '../../block/block.ts';
-import {  InputWithValidation } from '../../components/input/input.ts';
+import { InputWithValidation } from '../../components/input/input.ts';
 import { Icon } from '../../components/icon/icon.ts';
 import { IconTypes } from '../icon/icon-resourses.ts';
 import { ValidationTypes } from '../../utils/validation.ts';
@@ -26,34 +26,38 @@ export class InputField extends Block<InputFieldProps> {
     const input = new InputWithValidation({
       validationType: ValidationTypes.MESSAGE,
       attributes: {
-        'class': 'input-field__input',
-        'type': 'text',
-        'name': name,
-        'id': name,
-        'placeholder': placeholder,
-      }
+        class: 'input-field__input',
+        type: 'text',
+        name: name,
+        id: name,
+        placeholder: placeholder,
+      },
     });
 
     const icon = new Icon({
       type: iconType,
       className: 'input-field__icon',
-      click: event => {
+      click: (event) => {
         event.preventDefault();
 
-        const { value, isValid} = this._input.checkIsValid();
+        const { value, isValid } = this._input.checkIsValid();
         if (isValid && onChange) {
           onChange(value);
         }
-      }
+      },
     });
 
-    super({
-      ...props,
-      children: { input, icon },
-      attributes: { 'class': `input-field ${className || ''}`, 'autocomplete': 'off' }
-    },
-    inputFieldTemplate,
-    'form'
+    super(
+      {
+        ...props,
+        children: { input, icon },
+        attributes: {
+          class: `input-field ${className || ''}`,
+          autocomplete: 'off',
+        },
+      },
+      inputFieldTemplate,
+      'form'
     );
 
     this._input = input;

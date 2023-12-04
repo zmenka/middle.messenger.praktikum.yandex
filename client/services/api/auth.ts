@@ -7,21 +7,21 @@ class AuthApi extends BaseApi {
   }
 
   signUp(data: SignUpUser) {
-    return this.httpTransport.post('signup', { body:  data})
+    return this.httpTransport
+      .post('signup', { body: data })
       .then(({ id }: any) => id);
   }
 
   signIn(data: SignInUser) {
-    return this.httpTransport.post('signin', { body:  data})
+    return this.httpTransport.post('signin', { body: data });
   }
 
   logout() {
-    return this.httpTransport.post('logout')
+    return this.httpTransport.post('logout');
   }
 
   user() {
-    return this.httpTransport.get('user')
-    .then((data: unknown) => data as User);
+    return this.httpTransport.get('user').then((data: unknown) => data as User);
   }
 }
 

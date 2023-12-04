@@ -1,17 +1,17 @@
 .input-field {
-    display: grid;
-    grid-template-columns: 1fr 60px;
+  display: grid;
+  grid-template-columns: 1fr 60px;
 }
 
 .input-field__input {
-    background-color: var(--white-color);
-    border: 1px solid var(--blue-color);
-    border-radius: 5px;
-    padding: 10px;
-    font-size: var(--text-size);
+  background-color: var(--white-color);
+  border: 1px solid var(--blue-color);
+  border-radius: 5px;
+  font-size: var(--text-size);
+  padding: 10px;
 }
 
 .input-field__icon {
-    color: var(--blue-color);
-    justify-self: end;
+  color: var(--blue-color);
+  justify-self: end;
 }

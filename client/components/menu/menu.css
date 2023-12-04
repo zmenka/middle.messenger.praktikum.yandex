@@ -1,7 +1,7 @@
 .menu {
-    background-color: var(--blue-color);
-    display: grid;
-    padding: 20px 0;
-    place-content: start center; 
-    row-gap: 20px;
+  background-color: var(--blue-color);
+  display: grid;
+  padding: 20px 0;
+  place-content: start center;
+  row-gap: 20px;
 }

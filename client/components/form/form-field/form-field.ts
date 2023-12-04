@@ -1,6 +1,8 @@
-import { server } from 'typescript';
 import { Block } from '../../../block/block.ts';
-import { InputTypes, InputWithValidation } from '../../../components/input/input.ts';
+import {
+  InputTypes,
+  InputWithValidation,
+} from '../../../components/input/input.ts';
 import { ValidationTypes } from '../../../utils/validation.ts';
 import './form-field.css';
 
@@ -28,26 +30,28 @@ export type FormFieldProps = {
 export class FormField extends Block<FormFieldProps> {
   _input: InputWithValidation;
 
-  constructor(props: FormFieldProps ) {
+  constructor(props: FormFieldProps) {
     const { name, type, validationType, value, onChange } = props;
 
     const input = new InputWithValidation({
       validationType,
-      onChange: (value: string, isValid: boolean) =>{
-        console.log('onChange', value, isValid, onChange)
+      onChange: (value: string, isValid: boolean) => {
         this.setError(!isValid);
         onChange && onChange(value, isValid);
       },
       attributes: {
-        'class': 'form-field__input',
-        'type': type,
-        'name': name,
-        'id': name,
-        'value': value || ''
-      }
+        class: 'form-field__input',
+        type: type,
+        name: name,
+        id: name,
+        value: value || '',
+      },
     });
 
-    super({ ...props, children: { input }, attributes: { class: 'form-field' } }, fieldTemplate);
+    super(
+      { ...props, children: { input }, attributes: { class: 'form-field' } },
+      fieldTemplate
+    );
 
     this._input = input;
   }

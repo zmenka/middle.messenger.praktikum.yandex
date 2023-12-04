@@ -23,10 +23,17 @@ export class ModalError extends Block<ModalErrorProps> {
       className: 'modal-error__icon',
       click: () => {
         this.hide();
-      }
+      },
     });
 
-    super({ message: 'Something went wrong' , children: { icon }, attributes: { 'class': 'modal-error' }}, errorTemplate);
+    super(
+      {
+        message: 'Something went wrong',
+        children: { icon },
+        attributes: { class: 'modal-error' },
+      },
+      errorTemplate
+    );
     this.hide();
   }
 
@@ -39,13 +46,12 @@ export class ModalError extends Block<ModalErrorProps> {
   }
 
   show() {
-    this.getContent().style.display = "block";
+    this.getContent().style.display = 'block';
   }
 
   hide() {
-    this.getContent().style.display = "none";
+    this.getContent().style.display = 'none';
   }
 }
 
 export default new ModalError();
-

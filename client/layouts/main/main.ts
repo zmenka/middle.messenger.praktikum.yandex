@@ -1,9 +1,9 @@
-import { Block,  } from '../../block/block.ts';
+import { Block } from '../../block/block.ts';
 import { ConnectedMenu } from '../../components/menu/menu.ts';
 import './main.css';
 
 type MainProps = {
-  children: Block | Block[]
+  children: Block | Block[];
 };
 
 const mainTemplate = `
@@ -16,14 +16,13 @@ const mainTemplate = `
 `;
 
 export class Main extends Block<Record<string, any>> {
-
-  constructor({  children }: MainProps) {
+  constructor({ children }: MainProps) {
     const menu = new ConnectedMenu();
     const content = Array.isArray(children) ? children : [children];
 
-    super({ children: { content, menu }, attributes: { class: 'main' }}, mainTemplate);
+    super(
+      { children: { content, menu }, attributes: { class: 'main' } },
+      mainTemplate
+    );
   }
 }
-
-
-

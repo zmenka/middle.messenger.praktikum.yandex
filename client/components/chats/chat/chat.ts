@@ -1,6 +1,4 @@
 import { Block } from '../../../block/block.ts';
-import { Icon } from '../../../components/icon/icon.ts';
-import { IconTypes } from '../../../components/icon/icon-resourses.ts';
 import { getFullImgPath } from '../../../utils/path.ts';
 import './chat.css';
 
@@ -11,7 +9,7 @@ export type ChatProps = {
   unreadCount: number;
   lastMessage: string | null;
   selected: boolean;
-  onSelect: (chatId: number)=>void
+  onSelect: (chatId: number) => void;
 };
 
 const chatTemplate = `
@@ -33,18 +31,21 @@ export class Chat extends Block<ChatProps> {
   constructor(props: ChatProps) {
     const { avatar, selected } = props;
     const avatarPath = getFullImgPath(avatar);
-    super({
-      ...props,
-      avatar: avatarPath,
-      attributes: { 'class': `chat-item ${selected ? 'chat-item_selected' : ''}` },
-      events: {
-        click: event => {
-          event.preventDefault();
-          props.onSelect(this.props.id);
+    super(
+      {
+        ...props,
+        avatar: avatarPath,
+        attributes: {
+          class: `chat-item ${selected ? 'chat-item_selected' : ''}`,
         },
-      }
-    },
-    chatTemplate
+        events: {
+          click: (event) => {
+            event.preventDefault();
+            props.onSelect(this.props.id);
+          },
+        },
+      },
+      chatTemplate
     );
   }
 }

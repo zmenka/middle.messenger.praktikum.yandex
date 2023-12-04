@@ -1,5 +1,3 @@
-import e from "express";
-
 export type Indexed<T = unknown> = {
   [key in string]: T;
 };
@@ -13,18 +11,18 @@ export type User = {
   email: string;
   phone: string;
   avatar: string;
-}
+};
 
 export type UserInfo = Omit<User, 'id' | 'avatar'>;
 
 export type SignUpUser = Omit<User, 'id' | 'dispalay_name' | 'avatar'> & {
   password: string;
-}
+};
 
 export type SignInUser = {
   login: string;
   password: string;
-}
+};
 
 export type Chat = {
   id: 123;
@@ -39,14 +37,13 @@ export type Chat = {
       avatar: string;
       email: string;
       login: string;
-      phone: string
+      phone: string;
     };
     time: string;
-    content: string
-  } | null,
-  users?: ChatUser[],
-
-}
+    content: string;
+  } | null;
+  users?: ChatUser[];
+};
 
 export type ChatMessage = {
   id: number;
@@ -55,7 +52,7 @@ export type ChatMessage = {
   type: string;
   user_id: number;
   chat_id: number;
-}
+};
 
 export type ChatMessageView = {
   isAuthor: boolean;
@@ -63,14 +60,14 @@ export type ChatMessageView = {
   author: string;
   message: string;
   date: string;
-}
+};
 
 export type ChatUser = {
-  id: number,
-  first_name: string,
-  second_name: string,
-  display_name: string,
-  login: string,
-  avatar: string | null,
-  role: string
-}
+  id: number;
+  first_name: string;
+  second_name: string;
+  display_name: string;
+  login: string;
+  avatar: string | null;
+  role: string;
+};

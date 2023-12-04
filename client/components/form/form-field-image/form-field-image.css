@@ -1,33 +1,33 @@
 .form-field-image {
-    align-items: center;
-    display: grid;
-    grid-auto-flow: column;
-    justify-content: space-between;
-    margin-bottom: 30px;;
+  align-items: center;
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: space-between;
+  margin-bottom: 30px;
 }
 
 .form-field-image__img {
-    object-fit: cover;
+  object-fit: cover;
 }
 
 .form-field-image__cover {
-    width: 90px;
-    height: 90px;
-    border: 5px solid var(--blue-color);
-    border-radius: 10px;
-    overflow: hidden;
+  border: 5px solid var(--blue-color);
+  border-radius: 10px;
+  height: 90px;
+  overflow: hidden;
+  width: 90px;
 }
 
 .form-field-image__input {
-    height: 0.1px;
-    opacity: 0;
-    position: absolute;
-    width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  position: absolute;
+  width: 0.1px;
 }
 
 .form-field-image__label {
-    color: var(--blue-color);
-    cursor: pointer;
-    font-size: var(--text-size);
-    text-decoration: underline;
+  color: var(--blue-color);
+  cursor: pointer;
+  font-size: var(--text-size);
+  text-decoration: underline;
 }

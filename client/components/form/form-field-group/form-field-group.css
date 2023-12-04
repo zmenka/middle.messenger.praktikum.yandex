@@ -1,50 +1,28 @@
 .form-field-group {
-    display: grid;
-    row-gap: 20px;
+  display: grid;
+  row-gap: 20px;
 }
 
 .form-field-group__option {
-    display: grid;
-    grid-template-columns: 1fr 60px;
+  display: grid;
+  grid-template-columns: 1fr 60px;
 }
 
 .form-field-group__option-title {
-    background-color: var(--white-color);
-    border: 1px solid var(--blue-color);
-    border-radius: 5px;
-    padding: 10px;
-    text-align: start;
-    font-size: var(--text-size);
+  background-color: var(--white-color);
+  border: 1px solid var(--blue-color);
+  border-radius: 5px;
+  font-size: var(--text-size);
+  padding: 10px;
+  text-align: start;
 }
 
 .form-field-group__close-icon {
-    color: var(--blue-color);
-    justify-self: end;
+  color: var(--blue-color);
+  justify-self: end;
 }
 
-.form-field {
-    display: grid;
-    row-gap: 5px;
-}
-
-.form-field__label {
-    color: var(--gray-color);
-    font-size: var(--caption-size);
-    text-align: left;
-    text-transform: uppercase;
-}
-
-.form-field__input {
-    background-color: var(--white-color);
-    border: 1px solid var(--blue-color);
-    border-radius: 10px;
-    padding: 10px;
-}
-
-.form-field__error {
-    color: var(--red-color);
-    font-size: var(--caption-size);
-    margin: 0;
-    min-height: 12px;
-    text-align: left;
+.form-field-group__title {
+  color: var(--blue-color);
+  font-size: var(--title-size);
 }
