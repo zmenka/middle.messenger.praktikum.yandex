@@ -1,11 +1,15 @@
 .icon {
-    background: none;
-    border: none;
-    color: var(--gray-color);
-    cursor: pointer;
-    padding: 0;
+  background: none;
+  border: none;
+  color: var(--gray-color);
+  cursor: pointer;
+  padding: 0;
+}
+
+.icon svg {
+  vertical-align: middle;
 }
 
 .icon_active {
-    color: var(--white-color);
+  color: var(--white-color);
 }

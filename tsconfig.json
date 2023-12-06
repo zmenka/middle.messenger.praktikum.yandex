@@ -5,6 +5,7 @@
     "moduleResolution": "bundler",
     "target": "ESNext",
     "sourceMap": true,
+    "experimentalDecorators": true,
 
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,

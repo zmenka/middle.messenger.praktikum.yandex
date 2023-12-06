@@ -1,23 +1,27 @@
 import { Block } from '../../../block/block.ts';
-import { Icon } from '../../../components/icon/icon.ts';
-import { IconTypes } from '../../../components/icon/icon-resourses.ts';
+import { getFullImgPath } from '../../../utils/path.ts';
 import './chat.css';
 
 export type ChatProps = {
-  id: string;
-  author: string;
-  lastMessage: string;
-  unreadMsgCount: number;
+  id: number;
+  title: string;
+  avatar: string | null;
+  unreadCount: number;
+  lastMessage: string | null;
   selected: boolean;
-  onSelect: (chatId: string)=>void
+  onSelect: (chatId: number) => void;
 };
 
 const chatTemplate = `
 <div class="chat-item__title">
-		{{{ icon }}}
-		<div class="chat-item__author">{{ author }}</div>
-		{{#if unreadMsgCount}}
-				<span class="chat-item__new-msg-count">{{ unreadMsgCount }}</span>
+    <div class="chat-item__avatar-cover" >
+      {{#if avatar}}
+        <img class="chat-item__avatar" src="{{ avatar }}" width="90" height="90"/>
+      {{/if}}
+    </div>
+		<div class="chat-item__author">{{ title }}</div>
+		{{#if unreadCount}}
+				<span class="chat-item__new-msg-count">{{ unreadCount }}</span>
 		{{/if}}
 </div>
 <p class="chat-item__msg">{{ lastMessage }}</p>
@@ -25,26 +29,23 @@ const chatTemplate = `
 
 export class Chat extends Block<ChatProps> {
   constructor(props: ChatProps) {
-    const icon = new Icon({
-      type: IconTypes.AVATAR,
-      className: 'chat-item__avatar'
-    });
-
-    super("div", {
-      props,
-      children: { icon },
-      attributes: { 'class': 'chat-item' },
-      events: {
-        click: event => {
-          event.preventDefault();
-          props.onSelect(this.props.id);
+    const { avatar, selected } = props;
+    const avatarPath = getFullImgPath(avatar);
+    super(
+      {
+        ...props,
+        avatar: avatarPath,
+        attributes: {
+          class: `chat-item ${selected ? 'chat-item_selected' : ''}`,
         },
-      }
-    });
-  }
-
-  render() {
-    const { author, lastMessage, unreadMsgCount } = this.props;
-    return this.compile(chatTemplate, { author, lastMessage, unreadMsgCount });
+        events: {
+          click: (event) => {
+            event.preventDefault();
+            props.onSelect(this.props.id);
+          },
+        },
+      },
+      chatTemplate
+    );
   }
 }

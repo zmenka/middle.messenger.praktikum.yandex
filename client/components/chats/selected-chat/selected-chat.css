@@ -1,72 +1,82 @@
 .selected-chat {
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    overflow: hidden;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  overflow: hidden;
 }
 
 .selected-chat__header {
-    align-items: center;
-    background-color: var(--light-blue-color);
-    border: 1px solid var(--blue-color);
-    column-gap: 10px;
-    display: grid;
-    grid-template-columns: auto 1fr auto auto;
-    padding: 20px;
+  align-items: center;
+  background-color: var(--light-blue-color);
+  border: 1px solid var(--blue-color);
+  column-gap: 10px;
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  padding: 20px;
 }
 
-.selected-chat__header-avatar {
-    color: var(--blue-color);
+.selected-chat__avatar {
+  height: 30px;
+  object-fit: cover;
+  width: 30px;
+}
+
+.selected-chat__avatar-cover {
+  border: 2px solid var(--blue-color);
+  border-radius: 5px;
+  height: 30px;
+  overflow: hidden;
+  width: 30px;
 }
 
 .selected-chat__new-msg {
-    padding: 10px 20px;
+  padding: 10px 20px;
 }
 
 .selected-chat__msgs {
-    display: grid;
-    grid-auto-rows: min-content;
-    justify-items: right;
-    margin-top: 10px;
-    overflow: auto;
-    padding: 20px;
-    row-gap: 20px;
+  display: grid;
+  grid-auto-rows: min-content;
+  justify-items: right;
+  margin-top: 10px;
+  overflow: auto;
+  padding: 20px;
+  row-gap: 20px;
 }
 
 .selected-chat__item {
-    text-align: right;
+  text-align: right;
 }
 
 .selected-chat__item_left {
-    justify-self: left;
-    text-align: left;
+  justify-self: left;
+  text-align: left;
 }
 
 .selected-chat__day {
-    color: var(--gray-color);
-    font-size: var(--caption-size);
-    justify-self: center;
-    margin: 50px 0 20px;
-    text-transform: uppercase;
+  color: var(--gray-color);
+  font-size: var(--caption-size);
+  justify-self: center;
+  margin: 50px 0 20px;
+  text-transform: uppercase;
 }
 
 .selected-chat__msg {
-    color: var(--blue-color);
+  color: var(--blue-color);
 }
 
 .selected-chat__caption {
-    color: var(--gray-color);
-    font-size: var(--caption-size);
-    margin-top: 5px;
-    text-align: right;
-    text-transform: uppercase;
+  color: var(--gray-color);
+  font-size: var(--caption-size);
+  margin-top: 5px;
+  text-align: right;
+  text-transform: uppercase;
 }
 
 .selected-chat__item_left .selected-chat__caption {
-    text-align: left;
+  text-align: left;
 }
 
 .selected-chat__empty {
-    color: var(--blue-color);
-    grid-row: 2;
-    margin: auto;
+  color: var(--blue-color);
+  grid-row: 2;
+  margin: auto;
 }

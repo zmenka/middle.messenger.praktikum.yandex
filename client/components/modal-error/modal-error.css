@@ -1,0 +1,28 @@
+.modal-error {
+  background-color: rgb(0 0 0 / 35%);
+  inset: 0;
+  position: absolute;
+}
+
+.modal-error__container {
+  display: grid;
+  height: 100%;
+}
+
+.modal-error__content {
+  background-color: #fff;
+  border-radius: 10px;
+  display: grid;
+  justify-items: center;
+  margin: auto;
+  max-height: 90vh;
+  max-width: 500px;
+  min-width: 300px;
+  overflow: hidden;
+  padding: 20px 20px 40px;
+}
+
+.modal-error__icon {
+  justify-self: end;
+  margin-bottom: 10px;
+}

@@ -1,17 +1,40 @@
 import { Block } from '../../block/block.ts';
+import router, { RouterPaths } from '../../services/router.ts';
+import { getPathWithParams } from '../../utils/path.ts';
 import './link.css';
 
 export type LinkProps = {
   title: string;
-  url?: string;
+  url?: RouterPaths;
+  params?: Record<string, string>;
   click?: EventListener;
 };
 
 export class Link extends Block<LinkProps> {
   constructor(props: LinkProps) {
-    const { url = '', click } = props;
+    const { url, click, params = {} } = props;
 
-    super("a", { props, attributes: { 'class': 'link', 'href': url }, events: click ? { click } : {} });
+    const path = url ? getPathWithParams(url, params) : '#';
+
+    const onClick = (event: Event) => {
+      event.preventDefault();
+
+      if (click) {
+        click(event);
+      }
+
+      url && router.go(url, params);
+    };
+
+    super(
+      {
+        ...props,
+        attributes: { class: 'link', href: path },
+        events: { click: onClick },
+      },
+      undefined,
+      'a'
+    );
   }
 
   render() {

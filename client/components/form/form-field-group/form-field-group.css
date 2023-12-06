@@ -1,0 +1,28 @@
+.form-field-group {
+  display: grid;
+  row-gap: 20px;
+}
+
+.form-field-group__option {
+  display: grid;
+  grid-template-columns: 1fr 60px;
+}
+
+.form-field-group__option-title {
+  background-color: var(--white-color);
+  border: 1px solid var(--blue-color);
+  border-radius: 5px;
+  font-size: var(--text-size);
+  padding: 10px;
+  text-align: start;
+}
+
+.form-field-group__close-icon {
+  color: var(--blue-color);
+  justify-self: end;
+}
+
+.form-field-group__title {
+  color: var(--blue-color);
+  font-size: var(--title-size);
+}

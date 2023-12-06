@@ -1,35 +1,22 @@
 import { Main } from '../../layouts/main/main.ts';
-import { IconTypes } from '../../components/icon/icon-resourses.ts';
-import { Form } from '../../components/form/form.ts';
+import { Form, FormProps } from '../../components/form/form.ts';
 import { InputTypes } from '../../components/input/input.ts';
-import { ValidationTypes, ValidationInfo } from '../../services/validation.ts';
+import { ValidationTypes, ValidationInfo } from '../../utils/validation.ts';
+import { AuthController } from '../../services/controllers/auth.ts';
+import { UserController } from '../../services/controllers/user.ts';
+import router, { RouterPaths } from '../../services/router.ts';
+import { connect } from '../../services/connect.ts';
+import { State } from '../../services/store.ts';
 
-export const propfilePage = new Main({
-  menus: [
-    {
-      isActive: true,
-      type: IconTypes.AVATAR
-    },
-    {
-      type: IconTypes.CHAT
-    },
-    {
-      type: IconTypes.PLUS
-    }
-  ],
+const authController = new AuthController();
+const userController = new UserController();
 
-  content:  new Form({
-    title: 'Profile',
-    button: {
-      title: 'Save',
-    },
-    link: {
-      url: '/',
-      title: 'Log out'
-    },
+function mapStateToProfile({ user }: State): Pick<FormProps, 'fields'> {
+  return {
     fields: [
       {
-        name: 'image',
+        name: 'avatar',
+        currentPath: user?.avatar,
       },
       {
         title: 'First Name',
@@ -37,7 +24,8 @@ export const propfilePage = new Main({
         type: InputTypes.TEXT,
         error: ValidationInfo[ValidationTypes.NAME].error,
         isError: false,
-        validationType: ValidationTypes.NAME
+        validationType: ValidationTypes.NAME,
+        value: user?.first_name,
       },
       {
         title: 'Last Name',
@@ -45,7 +33,8 @@ export const propfilePage = new Main({
         type: InputTypes.TEXT,
         error: ValidationInfo[ValidationTypes.NAME].error,
         isError: false,
-        validationType: ValidationTypes.NAME
+        validationType: ValidationTypes.NAME,
+        value: user?.second_name,
       },
       {
         title: 'Display Name',
@@ -53,7 +42,8 @@ export const propfilePage = new Main({
         type: InputTypes.TEXT,
         error: ValidationInfo[ValidationTypes.NAME].error,
         isError: false,
-        validationType: ValidationTypes.NAME
+        validationType: ValidationTypes.NAME,
+        value: user?.display_name,
       },
       {
         title: 'Login',
@@ -61,7 +51,8 @@ export const propfilePage = new Main({
         type: InputTypes.TEXT,
         error: ValidationInfo[ValidationTypes.LOGIN].error,
         isError: false,
-        validationType: ValidationTypes.LOGIN
+        validationType: ValidationTypes.LOGIN,
+        value: user?.login,
       },
       {
         title: 'Email',
@@ -69,7 +60,8 @@ export const propfilePage = new Main({
         type: InputTypes.EMAIL,
         error: ValidationInfo[ValidationTypes.EMAIL].error,
         isError: false,
-        validationType: ValidationTypes.EMAIL
+        validationType: ValidationTypes.EMAIL,
+        value: user?.email,
       },
       {
         title: 'Phone',
@@ -77,24 +69,91 @@ export const propfilePage = new Main({
         type: InputTypes.TEL,
         error: ValidationInfo[ValidationTypes.PHONE].error,
         isError: false,
-        validationType: ValidationTypes.PHONE
+        validationType: ValidationTypes.PHONE,
+        value: user?.phone,
       },
-      {
-        title: 'Old password',
-        name: 'old_password',
-        type: InputTypes.PASSWORD,
-        error: ValidationInfo[ValidationTypes.PASSWORD].error,
-        isError: false,
-        validationType: ValidationTypes.PASSWORD
-      },
-      {
-        title: 'New password',
-        name: 'new_password',
-        type: InputTypes.PASSWORD,
-        error: ValidationInfo[ValidationTypes.PASSWORD].error,
-        isError: false,
-        validationType: ValidationTypes.PASSWORD
-      }
     ],
-  })
-});
+  };
+}
+
+export const ProfileForm = connect(Form, mapStateToProfile);
+
+export const ProfilePage = () => {
+  authController.user();
+
+  return new Main({
+    children: [
+      new ProfileForm({
+        title: 'Profile',
+        button: {
+          title: 'Save',
+        },
+        link: {
+          title: 'Log out',
+          click: () => {
+            authController.logout().catch((err) => {
+              console.log(err);
+            });
+          },
+        },
+        onSubmit: (data: any) => {
+          const apiRequests = [];
+          if (data.avatar) {
+            apiRequests.push(userController.changeAvatar(data.avatar));
+          }
+          apiRequests.push(
+            userController.changeInfo({
+              first_name: data.first_name,
+              second_name: data.second_name,
+              display_name: data.display_name,
+              login: data.login,
+              email: data.email,
+              phone: data.phone,
+            })
+          );
+
+          Promise.all(apiRequests).catch((err) => {
+            console.log(err);
+          });
+        },
+      }),
+      new Form({
+        title: 'Change password',
+        button: {
+          title: 'Save',
+        },
+        fields: [
+          {
+            title: 'Old password',
+            name: 'oldPassword',
+            type: InputTypes.PASSWORD,
+            error: ValidationInfo[ValidationTypes.PASSWORD].error,
+            isError: false,
+            validationType: ValidationTypes.PASSWORD,
+          },
+          {
+            title: 'New password',
+            name: 'newPassword',
+            type: InputTypes.PASSWORD,
+            error: ValidationInfo[ValidationTypes.PASSWORD].error,
+            isError: false,
+            validationType: ValidationTypes.PASSWORD,
+          },
+        ],
+        onSubmit: (data: any) => {
+          userController
+            .changePassword({
+              oldPassword: data.oldPassword,
+              newPassword: data.newPassword,
+            })
+            .then(() => {
+              router.go(RouterPaths.Chats);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        },
+      }),
+    ],
+  });
+};

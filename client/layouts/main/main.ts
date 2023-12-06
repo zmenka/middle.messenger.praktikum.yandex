@@ -1,35 +1,28 @@
-import { Block,  } from '../../block/block.ts';
-import { Icon, IconProps } from '../../components/icon/icon.ts';
+import { Block } from '../../block/block.ts';
+import { ConnectedMenu } from '../../components/menu/menu.ts';
 import './main.css';
 
 type MainProps = {
-  content: Block<any>,
-  menus: IconProps[]
+  children: Block | Block[];
 };
 
 const mainTemplate = `
-<div class="main__menu">
-	{{#each menus }}
-		{{{ this }}}
-	{{/each}}
-</div>
+{{{ menu }}}
 <div class="main__content">
-		{{{ content }}}
+  {{#each content }}
+    {{{ this }}}
+  {{/each}}
 </div>
 `;
 
 export class Main extends Block<Record<string, any>> {
+  constructor({ children }: MainProps) {
+    const menu = new ConnectedMenu();
+    const content = Array.isArray(children) ? children : [children];
 
-  constructor({ menus: menusProps, content }: MainProps) {
-    const menus = menusProps.map(menuProps => new Icon(menuProps));
-
-    super("div", { children: { content, menus }, attributes: { class: 'main' }});
-  }
-
-  render() {
-    return  this.compile(mainTemplate);
+    super(
+      { children: { content, menu }, attributes: { class: 'main' } },
+      mainTemplate
+    );
   }
 }
-
-
-
