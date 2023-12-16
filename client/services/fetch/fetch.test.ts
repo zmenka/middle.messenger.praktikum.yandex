@@ -69,6 +69,7 @@ describe('HTTPTransport', function () {
 
   it(`Should add header {'Content-Type': 'application/json'} for POST request with body`, () => {
     http.post('test', { body: { data: 'test' } });
+    console.log('CHECK', requests[0].requestHeaders);
     expect(requests[0].requestHeaders['Content-Type']).to.match(/application\/json/);
   });
 
