@@ -2,7 +2,7 @@ import { Form } from '../../components/form/form.ts';
 import { InputTypes } from '../../components/input/input.ts';
 import { ValidationTypes, ValidationInfo } from '../../utils/validation.ts';
 import { AuthController } from '../../services/controllers/auth.ts';
-import { RouterPaths } from '../../services/router.ts';
+import { RouterPaths } from '../../services/router/router.ts';
 import './sign-in.css';
 
 const authController = new AuthController();

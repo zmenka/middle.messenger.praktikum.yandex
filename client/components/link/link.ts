@@ -1,5 +1,5 @@
 import { Block } from '../../block/block.ts';
-import router, { RouterPaths } from '../../services/router.ts';
+import router, { RouterPaths } from '../../services/router/router.ts';
 import { getPathWithParams } from '../../utils/path.ts';
 import './link.css';
 

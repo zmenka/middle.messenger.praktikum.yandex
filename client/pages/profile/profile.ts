@@ -4,9 +4,9 @@ import { InputTypes } from '../../components/input/input.ts';
 import { ValidationTypes, ValidationInfo } from '../../utils/validation.ts';
 import { AuthController } from '../../services/controllers/auth.ts';
 import { UserController } from '../../services/controllers/user.ts';
-import router, { RouterPaths } from '../../services/router.ts';
-import { connect } from '../../services/connect.ts';
-import { State } from '../../services/store.ts';
+import router, { RouterPaths } from '../../services/router/router.ts';
+import { connect } from '../../services/connect/connect.ts';
+import { State } from '../../services/store/store.ts';
 
 const authController = new AuthController();
 const userController = new UserController();

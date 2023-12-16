@@ -1,6 +1,6 @@
-import { render } from './render.ts';
-import { Block } from '../block/block.ts';
-import { getPathWithoutParams } from '../utils/path.ts';
+import { render } from '../render.ts';
+import { Block } from '../../block/block.ts';
+import { getPathWithoutParams } from '../../utils/path.ts';
 import { RouterPaths } from './router.ts';
 
 export class Route {

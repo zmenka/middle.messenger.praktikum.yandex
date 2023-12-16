@@ -1,5 +1,5 @@
-import { BaseApi } from './base';
-import { Chat, ChatUser } from '../../utils/data';
+import { BaseApi } from './base.ts';
+import { Chat, ChatUser } from '../../utils/data.ts';
 
 class ChatApi extends BaseApi {
   constructor() {

@@ -1,8 +1,8 @@
-import store from '../store';
-import UserApi from '../api/user';
-import { catchPromiseWithModalError } from './base';
-import { UserInfo } from '../../utils/data';
-import { isEqual } from '../../utils/is-equal';
+import store from '../store/store.ts';
+import UserApi from '../api/user.ts';
+import { catchPromiseWithModalError } from './base.ts';
+import { UserInfo } from '../../utils/data.ts';
+import { isEqual } from '../../utils/is-equal.ts';
 
 export class UserController {
   @catchPromiseWithModalError

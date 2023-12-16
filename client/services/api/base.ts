@@ -1,4 +1,4 @@
-import { HTTPTransport } from '../fetch';
+import { HTTPTransport } from '../fetch/fetch.ts';
 
 export class BaseApi {
   httpTransport: HTTPTransport;

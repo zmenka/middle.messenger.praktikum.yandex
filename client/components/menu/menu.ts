@@ -1,9 +1,9 @@
 import { Block } from '../../block/block.ts';
 import { Icon } from '../../components/icon/icon.ts';
 import { IconTypes } from '../../components/icon/icon-resourses.ts';
-import router, { RouterPaths } from '../../services/router.ts';
-import { connect } from '../../services/connect.ts';
-import { State } from '../../services/store.ts';
+import router, { RouterPaths } from '../../services/router/router.ts';
+import { connect } from '../../services/connect/connect.ts';
+import { State } from '../../services/store/store.ts';
 import { getPathWithoutParams } from '../../utils/path.ts';
 
 import './menu.css';

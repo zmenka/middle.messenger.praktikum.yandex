@@ -1,5 +1,5 @@
-import { EventBus } from './event-bus';
-import { getPathWithParams } from '../utils/path';
+import { EventBus } from './event-bus.ts';
+import { getPathWithParams } from '../utils/path.ts';
 
 const WS_URL = 'wss://ya-praktikum.tech/ws/chats/:userId/:chatId/:token';
 

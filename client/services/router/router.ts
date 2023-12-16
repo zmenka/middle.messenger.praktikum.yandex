@@ -1,7 +1,10 @@
-import { Block } from '../block/block.ts';
+import { Block } from '../../block/block.ts';
 import { Route } from './route.ts';
-import store from './store.ts';
-import { getPathWithParams, getParamsWithoutTemplate } from '../utils/path.ts';
+import store from '../store/store.ts';
+import {
+  getPathWithParams,
+  getParamsWithoutTemplate,
+} from '../../utils/path.ts';
 
 export enum RouterPaths {
   SignIn = '/',
@@ -43,7 +46,7 @@ export class Router {
     const route = this.getRoute(path);
 
     if (!route) {
-      console.log('No route for', path, this.routes, route);
+      console.log('No route for', path);
       this.go(RouterPaths.SignIn);
       return;
     }
@@ -65,6 +68,7 @@ export class Router {
 
   go(pathname: RouterPaths, params: Record<string, string | number> = {}) {
     const path = getPathWithParams(pathname, params);
+
     if (store.getState().currentPath === path) {
       return;
     }

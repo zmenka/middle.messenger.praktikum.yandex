@@ -1,5 +1,5 @@
-import { Indexed } from './data';
-import { merge } from './merge';
+import { Indexed } from './data.ts';
+import { merge } from './merge.ts';
 
 export function set(
   object: Indexed | unknown,
