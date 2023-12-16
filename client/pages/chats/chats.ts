@@ -2,8 +2,8 @@ import { Main } from '../../layouts/main/main.ts';
 import { ConnectedChats } from '../../components/chats/chats.ts';
 import { ChatController } from '../../services/controllers/chat.ts';
 import { AuthController } from '../../services/controllers/auth.ts';
-import store from '../../services/store.ts';
-import router, { RouterPaths } from '../../services/router.ts';
+import store from '../../services/store/store.ts';
+import router, { RouterPaths } from '../../services/router/router.ts';
 import { getParamFromQuery } from '../../utils/path.ts';
 
 const authController = new AuthController();

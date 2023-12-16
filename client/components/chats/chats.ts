@@ -1,15 +1,15 @@
 import { Block } from '../../block/block.ts';
 import { ChatProps, Chat } from './chat/chat.ts';
 import { ConnectedSelectedChat } from './selected-chat/selected-chat.ts';
-import { connect } from '../../services/connect.ts';
-import { State } from '../../services/store.ts';
+import { connect } from '../../services/connect/connect.ts';
+import { State } from '../../services/store/store.ts';
 import { getParamFromQuery } from '../../utils/path.ts';
 
 import './chats.css';
 
 export type ChatsProps = {
   pathChatId?: number;
-  selectedChatId?: number
+  selectedChatId?: number;
   chats: Omit<ChatProps, 'onSelect'>[];
   onChatSelect: (chatId: number) => void;
   onPathChanged: (chatId?: number) => void;
@@ -82,9 +82,8 @@ function mapStateToProps({
   chatsMap = {},
   chatsOrder = [],
   queryParams,
-  selectedChat
+  selectedChat,
 }: State): Omit<ChatsProps, 'onChatSelect' | 'onPathChanged'> {
-
   const currentChatId = getParamFromQuery('chatId', 'number', queryParams) as
     | number
     | undefined;

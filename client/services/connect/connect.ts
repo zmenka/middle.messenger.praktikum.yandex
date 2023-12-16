@@ -1,6 +1,6 @@
-import { Block } from '../block/block';
-import store, { StoreEvents, State } from './store';
-import { isEqual } from '../utils/is-equal';
+import { Block } from '../../block/block.ts';
+import store, { StoreEvents, State } from '../store/store.ts';
+import { isEqual } from '../../utils/is-equal.ts';
 
 export function connect<
   T extends Record<string, any>,

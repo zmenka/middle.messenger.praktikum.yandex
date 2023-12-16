@@ -1,8 +1,8 @@
-import store from '../store';
-import ChatApi from '../api/chat';
-import { catchPromiseWithModalError } from './base';
-import { Chat } from '../../utils/data';
-import router, { RouterPaths } from '../router';
+import store from '../store/store.ts';
+import ChatApi from '../api/chat.ts';
+import { catchPromiseWithModalError } from './base.ts';
+import { Chat } from '../../utils/data.ts';
+import router, { RouterPaths } from '../router/router.ts';
 
 export class ChatController {
   @catchPromiseWithModalError

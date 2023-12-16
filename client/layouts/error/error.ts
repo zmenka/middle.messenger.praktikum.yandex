@@ -1,6 +1,6 @@
 import { Block } from '../../block/block.ts';
 import { Link } from '../../components/link/link.ts';
-import { RouterPaths } from '../../services/router.ts';
+import { RouterPaths } from '../../services/router/router.ts';
 import './error.css';
 
 const errorTemplate = `

@@ -1,7 +1,7 @@
-import store from '../store';
-import router, { RouterPaths } from '../router';
-import AuthApi from '../api/auth';
-import { catchPromiseWithModalError } from './base';
+import store from '../store/store.ts';
+import router, { RouterPaths } from '../router/router.ts';
+import AuthApi from '../api/auth.ts';
+import { catchPromiseWithModalError } from './base.ts';
 
 export class AuthController {
   @catchPromiseWithModalError

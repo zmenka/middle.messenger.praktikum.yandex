@@ -1,4 +1,4 @@
-import { RouterPaths } from '../services/router';
+import { RouterPaths } from '../services/router/router.ts';
 
 // '/profile/:id' {id:123} => '/profile/123'
 export function getPathWithParams(
@@ -28,7 +28,7 @@ export function getParams(template: RouterPaths, path: string) {
 
   const params: Record<string, string> = {};
 
-  templateParts.forEach((part, i) => {
+  templateParts.forEach((part: string, i: number) => {
     if (part.startsWith(':')) {
       params[part.slice(1)] = pathParts[i];
     }

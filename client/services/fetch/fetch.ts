@@ -14,7 +14,6 @@ type Options = {
   withCredentials?: boolean;
 };
 
-// TODO добавить проверки
 function queryStringify(params: { [key: string]: string | number }): string {
   return Object.keys(params)
     .map((k) => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
@@ -22,7 +21,6 @@ function queryStringify(params: { [key: string]: string | number }): string {
 }
 
 function withQuery(url: string, params: { [key: string]: string | number }) {
-  // TODO
   const queryString = queryStringify(params);
   return queryString
     ? url + (url.indexOf('?') === -1 ? '?' : '&') + queryString
@@ -79,7 +77,6 @@ export class HTTPTransport {
 
       xhr.timeout = timeout;
       xhr.withCredentials = withCredentials;
-
       xhr.onload = function () {
         const status = xhr.status || 0;
         if (status >= 200 && status < 300) {
@@ -104,3 +101,4 @@ export class HTTPTransport {
     });
   };
 }
+

@@ -1,6 +1,6 @@
-import { User, Chat } from '../utils/data';
-import { set } from '../utils/set';
-import { EventBus } from './event-bus';
+import { User, Chat } from '../../utils/data.ts';
+import { set } from '../../utils/set.ts';
+import { EventBus } from '../event-bus.ts';
 
 export enum StoreEvents {
   Updated = 'STORE:updated',
@@ -15,15 +15,11 @@ export type State = {
   queryParams: Record<string, string>;
 };
 
-class Store extends EventBus {
+export class Store extends EventBus {
   private state: State = {
     currentPath: '',
     queryParams: {},
   };
-
-  constructor() {
-    super();
-  }
 
   public getState() {
     return this.state;
@@ -34,6 +30,14 @@ class Store extends EventBus {
 
     this.emit(StoreEvents.Updated);
   }
+
+  public clean() {
+    this.state = {
+      currentPath: '',
+      queryParams: {},
+    };
+  }
 }
 
-export default new Store();
+export const currentStore = new Store();
+export default currentStore;

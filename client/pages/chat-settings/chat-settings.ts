@@ -8,9 +8,9 @@ import { ValidationTypes, ValidationInfo } from '../../utils/validation.ts';
 import { AuthController } from '../../services/controllers/auth.ts';
 import { UserController } from '../../services/controllers/user.ts';
 import { ChatController } from '../../services/controllers/chat.ts';
-import router, { RouterPaths } from '../../services/router.ts';
-import { connect } from '../../services/connect.ts';
-import store, { State } from '../../services/store.ts';
+import router, { RouterPaths } from '../../services/router/router.ts';
+import { connect } from '../../services/connect/connect.ts';
+import store, { State } from '../../services/store/store.ts';
 import { getParamFromQuery } from '../../utils/path.ts';
 
 const authController = new AuthController();
@@ -132,8 +132,15 @@ export const ChatSettingsPage = () => {
             if (data.users && data.users.length) {
               const users = selectedChat?.users || [];
 
-              const addedUsers = data.users.filter((userId: number) => !users.find(({ id }) => id === userId));
-              const deletedUsers = users.filter(({ id }) => !data.users.find((userId: number) => id === userId)).map(({ id }) => id);
+              const addedUsers = data.users.filter(
+                (userId: number) => !users.find(({ id }) => id === userId)
+              );
+              const deletedUsers = users
+                .filter(
+                  ({ id }) =>
+                    !data.users.find((userId: number) => id === userId)
+                )
+                .map(({ id }) => id);
 
               const apiRequests: Promise<any>[] = [];
               if (addedUsers.length) {
@@ -141,7 +148,9 @@ export const ChatSettingsPage = () => {
               }
 
               if (deletedUsers.length) {
-                apiRequests.push(chatController.deleteUsers(chatId, deletedUsers));
+                apiRequests.push(
+                  chatController.deleteUsers(chatId, deletedUsers)
+                );
               }
               return Promise.all(apiRequests);
             }

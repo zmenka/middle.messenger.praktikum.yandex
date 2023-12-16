@@ -1,5 +1,5 @@
-import { BaseApi } from './base';
-import { User, UserInfo } from '../../utils/data';
+import { BaseApi } from './base.ts';
+import { User, UserInfo } from '../../utils/data.ts';
 
 class UserApi extends BaseApi {
   constructor() {
