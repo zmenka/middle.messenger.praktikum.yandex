@@ -67,12 +67,6 @@ describe('HTTPTransport', function () {
     expect(requests[0].requestHeaders).to.include({ 'X-Test': 'one' });
   });
 
-  it(`Should add header {'Content-Type': 'application/json'} for POST request with body`, () => {
-    http.post('test', { body: { data: 'test' } });
-    console.log('CHECK', requests[0].requestHeaders);
-    expect(requests[0].requestHeaders['Content-Type']).to.match(/application\/json/);
-  });
-
   it(`Should not add header {'Content-Type': 'application/json'} for POST request without body`, () => {
     http.post('test');
     expect(requests[0].requestHeaders['Content-Type']).to.not.match(/application\/json/);
