@@ -16,3 +16,22 @@ router
   .use(RouterPaths.ChatSettings, ChatSettingsPage)
   .use(RouterPaths.Profile, ProfilePage)
   .start();
+
+export const register = async (swUrl: string) => {
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', async () => {
+      try {
+        await navigator.serviceWorker.register(swUrl);
+      } catch (e) {
+        console.error(`Registration of service worker failed with ${e}`);
+      }
+    });
+  } else {
+    console.log('Service workers are not supported.');
+  }
+};
+
+if (import.meta.env.PROD) {
+  register('/service-worker.js');
+}
+

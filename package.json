@@ -12,6 +12,7 @@
     "server": "ts-node --esm  --project ./server/tsconfig-server.json ./server/server.ts",
     "start": "npm run build && npm run server",
     "dev": "vite",
+    "preview": "vite preview",
     "lint": "npm run eslint && npm run stylelint && npm run check-types",
     "eslint": "eslint --ignore-path .gitignore --ext .ts,.js . --fix",
     "stylelint": "stylelint --ignore-path .gitignore \"**/*.css\" --fix",
