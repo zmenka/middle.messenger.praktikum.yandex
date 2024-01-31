@@ -67,28 +67,15 @@ const update = (request, fetchResponse) =>
 
 // пытамся загрузить ресурс из сети, если не получается, то из кэша
 self.addEventListener('fetch', (ev) => {
+  // не обрабатываем не GET запросы
   if (ev.request.method !== 'GET') {
-    console.log('pass non GET request');
     return;
   }
-  console.log(`fetch request for: ${ev.request.url}`);
+
   ev.respondWith(
-    fromNetwork(ev.request, 5000).catch(() => fromCache(ev.request))
+    fromNetwork(ev.request, 5000).catch(() => {
+      console.log(`Fetching request for: ${ev.request.url} from cache`);
+      return fromCache(ev.request);
+    })
   );
-  // evt.waitUntil(update(evt.request));
-  // ev.respondWith(
-  //   caches.match(ev.request).then((cacheRes) => {
-  //     console.log(`find in cache: ${cacheRes}`);
-  //     return (
-  //       cacheRes ||
-  //       fetch(ev.request).then((fetchResponse) => {
-  //         console.log(`try to fetch: ${fetchResponse}`);
-  //         return caches.open(CURRENT_CACHE).then((cache) => {
-  //           cache.put(ev.request, fetchResponse.clone());
-  //           return fetchResponse;
-  //         });
-  //       })
-  //     );
-  //   })
-  // );
 });

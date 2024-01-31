@@ -34,8 +34,8 @@ export default defineConfig({
         buildSync({
           minify: true,
           bundle: true,
-          entryPoints: [join(process.cwd(), 'service-worker.js')],
-          outfile: join(process.cwd(), 'dist', 'service-worker.js'),
+          entryPoints: [join(__dirname, 'service-worker.js')],
+          outfile: join(__dirname, 'dist', 'service-worker.js'),
         });
       },
     },
