@@ -50,7 +50,7 @@ const fromNetwork = (request, timeout) =>
         clearTimeout(timeoutId);
         return update(request, fetchResponse);
       })
-      .then(() => resolve(fetchResponse))
+      .then(resolve)
       .catch(reject);
   });
 
